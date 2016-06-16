@@ -17,8 +17,4 @@
 ```html
 ```
 
-Install via NPM
-
-    $ npm install pier
-
 ## Usage
