@@ -1,5 +1,7 @@
 # Pier
-:construction: *Alpha* :construction: A lightweight &amp; tidy SASS framework for creating your own helper classes.
+:construction: *Alpha*
+
+A lightweight &amp; tidy Sass framework for creating your own utility classes.
 
 Includes:
 - Simple grid system with configurable column sizes per breakpoint
@@ -36,8 +38,10 @@ See `_pier/helpers.scss` for mixin usage examples.
 Translates pixel size to rems.
 
 ```css
-    margin-left: rem-calc(36 / 2);
-    margin-left: 2rem;
+    .example{
+        margin-left: rem-calc(36 / 2);
+        margin-left: 2rem;
+    }
 ```
 
 `color($color,[$tone:'base'])`
@@ -45,12 +49,16 @@ Translates pixel size to rems.
 Maps colours from `_settings.scss` for use in Sass with simple handles. `$tone` can be `lighter`, `light`, `dark` or `darker`.
 
 ```scss
-    background: color(primary);
-    border-color: color(primary, dark);
+    .example{
+        background: color(primary);
+        border-color: color(primary, dark);
+    }
 ```
 ```css
-    background: #FEEB5F;
-    border-color: #E5D246;
+    .example{
+        background: #FEEB5F;
+        border-color: #E5D246;
+    }
 ```
 
 `colorSet([$modifier:null],$properties…)`
@@ -112,15 +120,17 @@ Generate utility classes for sides, sizes in `_settings.scss` for margin & paddi
 
 `scale($level,[$breakpoint: 'small'])`
 
-Output font size & linehight for specified heading level. `$level` can be `h1`, `h2`, `h3` , `h4`, `p`
+Output font size & linehight for specified heading level at specified breakpoint (optional, can be `small`, `medium` or `large`). `$level` can be `h1`, `h2`, `h3` , `h4`, `p`.
 
 ```css
-    @include scale($level, small);
+    .example{
+        @include scale($level, small);
+    }
 ```
 
 `size($level)`
 
-Returns font size and line-height for `$level`.
+Returns font size and line-height for `$level` at 3 breakpoints (`small`, `medium`, `large`).
 
 `borders()`
 
