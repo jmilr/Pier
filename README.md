@@ -1,5 +1,5 @@
 # Pier
-:construction: Alpha :construction: A lightweight &amp; tidy SASS framework for creating your own helper classes.
+:construction: *Alpha* :construction: A lightweight &amp; tidy SASS framework for creating your own helper classes.
 
 Includes:
 - Simple grid system with configurable column sizes per breakpoint
@@ -29,7 +29,7 @@ See `_pier/helpers.scss` for mixin usage examples.
 
 ## Usage
 
-# Full Documentation Coming Soon™
+### Full Documentation Coming Soon™
 
 `rem-calc($size)`
 
