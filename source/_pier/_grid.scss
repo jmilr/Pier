@@ -1,0 +1,130 @@
+// ====================================
+// GRID
+// ====================================
+
+@mixin column($columns: $column-count){
+	width: $columns * (100% / $column-count);
+	display: flex;
+	flex-direction: column;
+	flex: 0 0 ($columns * (100% / $column-count));
+}
+
+@mixin offset($columns: $column-count){
+	margin-left: $columns * (100% / $column-count) !important;
+	max-width: 100% - ($columns * (100% / $column-count));
+}
+
+@mixin row($nest: false){
+	max-width: $global-width;
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+
+	margin-left: auto;
+	margin-right: auto;
+}
+
+@mixin breakpoint($breakpoint, $direction: 'min', $orientation: 'width') {
+	
+	$breakpoints: if($orientation == 'height', $vbreakpoints, $breakpoints);
+
+	@if map-has-key($breakpoints, $breakpoint) {
+		$breakpoint: map-get($breakpoints, if($breakpoint == 'small' and $direction == 'max', 'medium', $breakpoint));
+		$breakpoint: if($direction == 'max',$breakpoint - 1,$breakpoint);
+
+		@media screen and (#{$direction}-#{$orientation}: rem-calc($breakpoint)) {
+			@content;
+		}
+	} @else {
+		@content;
+	}
+}
+
+[class^='row']{
+	@include row();
+	flex: 1 0 0;
+}
+
+.row--fluid{
+	max-width: 100%;
+}
+
+[class*='col--']{
+	float: left;
+	width: 100%;
+	padding-left: $padding;
+	padding-right: $padding;
+
+	&.row{
+		padding-left: 0;
+		padding-right: 0;
+	}
+
+	.row{
+		margin-left: -$padding;
+		margin-right: -$padding;
+	}
+}
+
+$columns: map-get(map-get($grid, small), columns);
+$offsets: map-get(map-get($grid, small), offsets);
+
+.offset{
+	&--0{
+		margin-left: 0;
+	}
+
+	@each $offset in $offsets{
+		&--#{$offset}{
+			@include offset($offset);
+		}
+	}
+}
+
+.col{
+	@each $column in $columns{
+		&--#{$column}{
+			@include column($column);
+		}
+	}
+}
+
+@mixin makegrid(){
+	@each $size in $grid {
+		@if (nth($size,1) != 'small'){
+			$columns: nth(nth(nth($size,2),1),2);
+			$offsets: nth(nth(nth($size,2),2),2);
+			$size: nth($size,1);
+
+			@include breakpoint($size){
+				.#{$size}\:{
+					&col{
+						@each $column in $columns {
+							&--#{$column}{
+								@include column($column);
+							}
+						}
+					}
+	
+					&offset{
+						&--0{
+							margin-left: 0;
+						}
+				
+						@each $offset in $offsets {
+							&--#{$offset}{
+								@include offset($offset);
+							}
+						}
+					}
+			
+					&row--fluid{
+						max-width: 100%;
+					}
+				}
+			}
+		}
+	}
+}
+
+@include makegrid();

@@ -1,0 +1,231 @@
+// ====================================
+// MIXINS
+// ====================================
+
+// ====================================
+// PX TO REM CALCULATOR
+// ====================================
+
+@function rem-calc($size) {
+    $remSize: ($size/16);
+    @return #{$remSize}rem;
+}
+
+// ====================================
+// COLOR GETTER & COLORSET
+// ====================================
+// Create helper-classes of all colors
+// in $colors for the provided
+// properties
+// ====================================
+// USAGE:
+// Getter: color(primary) = returns hex code
+// colorSet([hover|active|focus or property], [property], [property,lighter|light|dark|darker]);
+// @include colorSet(hover, color, (background-color, dark));  
+// ====================================
+
+@function color($color, $tone: 'base') {
+    $color: map-get($colors, $color);
+    @if $tone=='lighter' {
+        @return lighten($color, 25%);
+    }
+    @else if $tone=='light' {
+        @return lighten($color, 10%);
+    }
+    @else if $tone=='dark' {
+        @return darken($color, 10%);
+    }
+    @else if $tone=='darker' {
+        @return darken($color, 25%);
+    }
+    @else {
+        @return $color;
+    }
+}
+
+@mixin colorSet($modifier:null, $properties...) {
+    @if not index((hover, active, focus), $modifier) {
+        $properties: append($properties, $modifier);
+    }
+    @each $handle,
+    $color in $colors {
+        $class: $handle;
+        @if index((hover, active, focus), $modifier) {
+            $class: $handle+':'+$modifier;
+        }
+        &--#{$class} {
+            @each $property in $properties {
+                @if length($property)>=2 {
+                    #{nth($property, 1)}: color($handle, nth($property, 2));
+                }
+                @else {
+                    #{$property}: color($handle);
+                }
+            }
+        }
+    }
+}
+
+// ====================================
+// SPACERS
+// ====================================
+// Create helper-classes of all sizes
+// in $spacers for the provided
+// properties (margin, padding)
+// ====================================
+// USAGE:
+// spacers([property] [property]);
+// ====================================
+
+@mixin padding {
+    @each $size, $space in $spacers {
+		&--#{$size} {
+			padding: #{$space}rem;
+		}
+	}
+    @each $direction in $directions{
+        @each $size, $space in $spacers {
+            &--#{$direction}--#{$size} {
+                padding-#{$direction}: #{$space}rem;
+            }
+        }
+    }
+}
+
+@mixin margin {
+    @each $size, $space in $spacers {
+		&--#{$size} {
+			margin: #{$space}rem;
+		}
+	}
+    @each $direction in $directions{
+        @each $size, $space in $spacers {
+            &--#{$direction}--#{$size} {
+                margin-#{$direction}: #{$space}rem;
+            }
+        }
+    }
+}
+
+// ====================================
+// FONT SIZING
+// ====================================
+// Create helper-classes for font-sizes
+// ====================================
+// USAGE:
+// ====================================
+
+@mixin scale($level, $breakpoint: 'small') {
+	
+	$scale: 0;
+	
+	@if $breakpoint == 'large'{
+		$scale: $ratio;
+	} @else if $breakpoint == 'medium'{
+		$scale: $md-ratio;
+	} @else {
+		$scale: $sm-ratio;
+	}
+
+	@if $level == 'h1'{
+		font-size: #{$base * $scale * $scale * $scale * $scale}rem;
+		line-height: #{ceil($base * $scale * $scale * $scale * $scale)}rem;
+	} @else if $level == 'h2'{
+		font-size: #{$base * $scale * $scale * $scale}rem;
+		line-height: #{ceil($base * $scale * $scale * $scale)}rem;
+	} @else if $level == 'h3'{
+		font-size: #{$base * $scale * $scale}rem;
+		line-height: #{ceil($base * $scale * $scale)}rem;
+	} @else if $level == 'h4'{
+		font-size: #{$base * $scale}rem;
+		line-height: #{ceil($base * $scale)}rem;
+	} @else if $level == 'p'{
+		font-size: #{$base * $scale}rem;
+		line-height: #{ceil($base * $scale)}rem;
+	} @else {
+		$scale: $ratio;
+	}
+}
+
+@mixin size($level) {
+	@include scale($level, small);
+	
+	@include breakpoint(medium) {
+		@include scale($level, medium);
+	}
+	
+	@include breakpoint(large) {
+		@include scale($level, large);
+	}
+}
+
+// ====================================
+// BORDERS
+// ====================================
+// Create helper-classes of all sizes
+// in $borders
+// ====================================
+// USAGE:
+// ====================================
+
+@mixin borders {
+	@each $size, $width in $borders {
+		&--#{$size} {
+			border-style: solid;
+			border-width: #{$width}px;
+		}
+	}
+	@each $direction in $directions {
+		@each $size, $width in $borders {
+			&--#{$direction}--#{$size} {
+				border-#{$direction}-style: solid;
+				border-#{$direction}-width: #{$width}px;
+			}
+		}
+	}
+}
+
+// ====================================
+// Radius
+// ====================================
+// Create helper-classes of all sizes
+// in $radii
+// ====================================
+// USAGE:
+// ====================================
+
+@mixin radii {
+    @each $size, $radius in $radii{
+		&--#{$size} {
+			border-radius: #{$radius}rem;
+		}
+	}
+}
+
+@function radius($radius: 'base') {
+    $radius: map-get($radii, $radius);
+    @return #{$radius}rem;
+}
+
+@mixin clearfix {
+    &::before,
+    &::after {
+        content: ' ';
+        display: table;
+        flex-basis: 0;
+        order: 1;
+    }
+    &::after {
+        clear: both;
+    }
+}
+
+@mixin prefix($declarations, $prefixes: (webkit, moz, o, ms)) {
+    @each $property,
+    $value in $declarations {
+        @each $prefix in $prefixes {
+            #{'-' + $prefix + '-' + $property}: $value;
+        }
+        #{$property}: $value;
+    }
+}

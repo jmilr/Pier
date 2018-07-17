@@ -1,0 +1,133 @@
+// ====================================
+// BUTTONS
+// ====================================
+
+.btn{
+	display: inline-block;
+	padding: .6rem 1rem;
+	vertical-align: middle;
+	font-weight: bold;
+	font-family: $primary;
+
+	color: #fff;
+	border-radius: radius();
+	position: relative;
+
+	&:hover, &:active, &:focus{
+		outline: none;
+	}
+
+	&--large{
+		margin: 0;
+		padding: 1rem 1.4rem;
+		font-size: 1.4rem;
+		border-radius: radius(large);
+	}
+
+	&--small{
+		margin: 0;
+		padding: .2rem .6rem;
+		border-radius: radius(small);
+	}
+
+	&--xsmall{
+		margin: 0;
+		padding: .1rem .2rem;
+		border-radius: radius(small);
+	}
+
+	transition: background-color .4s ease, color .1s ease;
+
+	@include colorSet(background-color, (border-color dark));
+	@include colorSet(hover, (background-color dark), border-color);
+	@include colorSet(active, (background-color light), border-color);
+}
+
+input.btn, input + .btn:last-child{
+	border-bottom-width: 1px;
+}
+
+.group{
+	position: relative;
+	display: block;
+
+	input{
+		transition: border-color .2s ease;
+		-webkit-appearance: none;
+		box-shadow: none;
+		border-radius: 0;
+
+		color: color(secondary);
+
+		&.large{
+			padding-left: .8rem;
+			padding-right: .8rem;
+		}
+
+		&:focus, &:active{
+			border-color: color(secondary);
+		}
+	}
+
+	@include breakpoint(medium,max){
+		.btn{
+			display: inline-block;
+			display: flex;
+			display: -ms-flexbox;
+
+			&+.btn{
+				margin-top: -1px;
+			}
+
+			&+.btn:not(:last-child){
+				border-radius: 0;
+			}
+
+			&:first-child:not(:last-child){
+				border-bottom-left-radius: 0;
+				border-bottom-right-radius: 0;
+			}
+
+			&:last-child:not(:first-child){
+				border-top-left-radius: 0;
+				border-top-right-radius: 0;
+			}
+		}
+	}
+
+	@include breakpoint(medium){
+		display: inline-block;
+		display: flex;
+		display: -ms-flexbox;
+
+		input{
+			flex: 1;
+			-ms-flex: 1;
+		}
+
+		.btn{
+			width: auto;
+
+			&+.btn{
+				margin-top: 0;
+				margin-left: -1px;
+				border-top-left-radius: 0;
+				border-bottom-left-radius: 0;
+			}
+
+			&+.btn:not(:last-child){
+				border-radius: 0;
+			}
+
+			&:first-child:not(:last-child){
+				border-top-right-radius: 0;
+				border-bottom-right-radius: 0;
+			}
+
+			&:last-child:not(:first-child){
+				border-top-left-radius: 0;
+				border-bottom-left-radius: 0;
+			}
+		}
+	}
+}

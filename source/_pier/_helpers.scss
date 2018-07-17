@@ -1,0 +1,148 @@
+// ====================================
+// GLOBAL HELPERS
+// ====================================
+
+.clearfix, [class^='row']{
+	&:before, &:after{
+		content: "";
+		display: table;
+	}
+}
+
+.clearfix, [class^='row']{
+	&:after{
+		clear: both;
+	}
+}
+
+.max-width{
+	max-width: 100% !important;
+	max-height: none !important;
+}
+
+.max-height{
+	max-height: 100% !important;
+	max-width: none !important;
+}
+
+*, *:before, *:after {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+// ====================================
+// HELPERS
+// ====================================
+
+.clear--none{clear: none;}
+.clear--both{clear: both;}
+
+.text--left{text-align: left;}
+.text--right{text-align: right;}
+.text--center{text-align: center;}
+.text--justify{text-align: justify;}
+
+.float--right{float: right;}
+.float--left{float: left;}
+.float--none{float: none;}
+
+.centered{margin-left: auto; margin-right: auto;}
+
+.hidden{display: none;}
+.visible{display: block; display: initial;}
+
+.radius{
+	@include radii();
+}
+
+.color{
+	@include colorSet(color);
+}
+
+.hover-color{
+	@include colorSet(hover,color);
+}
+
+.background{
+	@include colorSet(background-color);
+}
+
+.border{
+	@include borders();
+	@include colorSet(border-color);
+}
+
+.margin{
+	@include margin();
+}
+
+.padding{
+	@include padding();
+}
+
+@include breakpoint(medium) {
+	.medium\:{
+		&clear--none{clear: none;}
+		&clear--both{clear: both;}
+
+		&text--left{text-align: left;}
+		&text--right{text-align: right;}
+		&text--center{text-align: center;}
+		&text--justify{text-align: justify;}
+
+		&float--right{float: right;}
+		&float--left{float: left;}
+		&float--none{float: none;}
+
+		&centered{margin-left: auto; margin-right: auto;}
+
+		&hidden{display: none;}
+		&visible{display: block; display: initial;}
+
+		&border{
+			@include borders();
+		}
+
+		&margin{
+			@include margin();
+		}
+		
+		&padding{
+			@include padding();
+		}
+	}
+}
+
+@include breakpoint(large) {
+	.large\:{
+		&clear--none{clear: none;}
+		&clear--both{clear: both;}
+
+		&text--left{text-align: left;}
+		&text--right{text-align: right;}
+		&text--center{text-align: center;}
+		&text--justify{text-align: justify;}
+
+		&float--right{float: right;}
+		&float--left{float: left;}
+		&float--none{float: none;}
+
+		&centered{margin-left: auto; margin-right: auto;}
+
+		&hidden{display: none;}
+		&visible{display: block; display: initial;}
+
+		&border{
+			@include borders();
+		}
+
+		&margin{
+			@include margin();
+		}
+		
+		&padding{
+			@include padding();
+		}
+	}
+}

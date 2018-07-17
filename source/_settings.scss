@@ -1,0 +1,202 @@
+// ====================================
+// SETTINGS
+// ====================================
+
+// ====================================
+// PX TO REM CALCULATOR
+// ====================================
+// All values should be in px
+// (Don't modify this)
+// ====================================
+
+@function rem-calc($size) {
+    $remSize: ($size/16);
+    @return #{$remSize}rem;
+}
+
+// ====================================
+// GRID SETTINGS
+// ====================================
+
+$breakpoints: (
+	small: 0,
+	medium: 768,
+	large: 1220,
+	huge: 1872,
+	enormous: 2140,
+) !default;
+
+$vbreakpoints: (
+	small: 0,
+	medium: 400,
+	large: 1200
+) !default;
+
+// ====================================
+// BUILD HORIZONTAL GRID
+// ====================================
+// Create a limited set of column
+// classes depending on project needs
+// All widths & breakpoints optional
+// ====================================
+// USAGE:
+// $grid:(
+// 		small: (columns(6),offsets()),
+// 		large: (columns(4),offsets())
+// 	)
+// .col--6 .large:col--4
+// ====================================
+
+$grid:(
+	small: (
+		columns: (3,4,6,8),
+		offsets: (3,6)
+	),
+	medium: (
+		columns: (3,4,6,8,9,10,12),
+		offsets: (1,2,3,4,6,8)
+	),
+	large: (
+		columns: (2,3,4,6,8,9,10,12),
+		offsets: (1,2,3,4,6,8,10)
+	),
+	huge: (
+		columns: (4,6,8,10,12), 
+		offsets: (2,4,6,8)
+	)
+);
+
+// The max-width of non-fluid rows
+$global-width: rem-calc(map-get($breakpoints, 'large')) !default;
+$row-width: $global-width !default;
+$column-count: 12 !default;
+
+// The gap between each column, in pixels
+$column-gutter: 36 !default;
+
+$rhythm: rem-calc($column-gutter / 2);
+$padding: $rhythm;
+
+// ====================================
+// RADIUS SETTINGS
+// ====================================
+
+$radii:(
+	xsmall: .187,
+	small: .625,
+	base: 1,
+	large: 1.5
+);
+
+// ====================================
+// SPACING & BORDER SIDES
+// ====================================
+// Generate modifier classes for these
+// sides (margin/padding/border)
+// ====================================
+
+$directions:(
+	top,
+	right,
+	bottom,
+	left
+);
+
+// ====================================
+// SPACING SETTINGS
+// ====================================
+// In rem
+// ====================================
+// USAGE:
+// @include margin();
+// @include padding();
+// .margin--left--2
+// .padding--left--2
+// ====================================
+
+$spacers:(
+	0: 0,
+	1: .8,
+	2: 2.4,
+	3: 4,
+	4: 8
+);
+
+// ====================================
+// BORDER SETTINGS
+// ====================================
+// In px
+// ====================================
+// USAGE:
+// @include borders();
+// .border--left--2
+// ====================================
+
+$borders:(
+	0: 0,
+	2: 2,
+	4: 4,
+	8: 8,
+	12: 12
+);
+
+// ====================================
+// FONTS
+// ====================================
+// Scale font sizes by a dynamic ratio
+// ====================================
+// USAGE:
+// @include size(h1);  
+// ====================================
+
+$base: 1;
+
+$ratio: 1.52;
+$md-ratio: $ratio * .95;
+$sm-ratio: $ratio * .82;
+
+$heading-weight: 900;
+
+// Font stacks.
+$primary: "Athletics", Helvetica, Arial, sans-serif;
+$accent: "Pressura", Helvetica, Arial, sans-serif;
+$letter-gothic: "Pressura", "Courier", monospace, sans-serif;
+
+// Variables for the font stacks we want to use on this site.
+$global-font-family: $primary;
+$body-font: $primary;
+$monospace-font: $letter-gothic;
+$heading-font: $primary;
+
+// ====================================
+// COLORS SETTINGS
+// ====================================
+// Change to less dumb names
+// ====================================
+
+$colors:(
+	default: #FBDDA1,
+	primary: #FEEB5F,
+	secondary: #FE5D84,
+	tertiary: #0EDAEC,
+	quaternary: #5A00FE,
+	white: #FFFFFF
+);
+
+// ====================================
+// PIER MODULES
+// ====================================
+
+// Required:
+
+@import "_pier/mixins";
+@import "_pier/grid";
+
+// Boilerplates:
+
+@import "_pier/reset";
+@import "_pier/print";
+
+// Optional:
+
+@import "_pier/helpers";
