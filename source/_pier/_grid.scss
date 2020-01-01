@@ -2,6 +2,17 @@
 // GRID
 // ====================================
 
+// ====================================
+// COLUMN PADDING HELPER
+// ====================================
+
+$rhythm: rem-calc($column-gutter / 2);
+$padding: $rhythm;
+
+// ====================================
+// GRID MIXINS
+// ====================================
+
 @mixin column($columns: $column-count){
 	width: $columns * (100% / $column-count);
 	display: flex;
@@ -10,7 +21,7 @@
 }
 
 @mixin offset($columns: $column-count){
-	margin-left: $columns * (100% / $column-count) !important;
+	margin-left: $columns * (100% / $column-count);
 	max-width: 100% - ($columns * (100% / $column-count));
 }
 
@@ -23,6 +34,15 @@
 	margin-left: auto;
 	margin-right: auto;
 }
+
+// ====================================
+// BREAKPOINT MIXIN
+// ====================================
+// @include breakpoint(large){}
+// @include breakpoint(large, min, height){}
+// TO DO:
+// Might be able to set $direction to null to make it optional?
+// ====================================
 
 @mixin breakpoint($breakpoint, $direction: 'min', $orientation: 'width') {
 	
@@ -40,38 +60,57 @@
 	}
 }
 
-[class^='row']{
+// ====================================
+// ROWS
+// ====================================
+
+[class^='row'], .row{
 	@include row();
-	flex: 1 0 0;
+	flex: 1 0 100%;
 }
 
 .row--fluid{
-	max-width: 100%;
+	max-width: none;
+	.row--fluid{
+		max-width: none;
+	}
 }
 
+// ====================================
+// COLS BASE
+// ====================================
+
 [class*='col--']{
-	float: left;
 	width: 100%;
 	padding-left: $padding;
 	padding-right: $padding;
 
 	&.row{
+      	/* Add row class to make column act like a row */
 		padding-left: 0;
 		padding-right: 0;
 	}
 
 	.row{
+		/* Rows inside columns negate column padding */
 		margin-left: -$padding;
 		margin-right: -$padding;
 	}
 }
 
+/* Get column & offset sizes set in Settings.scss */
+
 $columns: map-get(map-get($grid, small), columns);
 $offsets: map-get(map-get($grid, small), offsets);
+
+// ====================================
+// GENERATE OFFSETS
+// ====================================
 
 .offset{
 	&--0{
 		margin-left: 0;
+		max-width: 100%;
 	}
 
 	@each $offset in $offsets{
@@ -81,6 +120,10 @@ $offsets: map-get(map-get($grid, small), offsets);
 	}
 }
 
+// ====================================
+// GENERATE COLUMNS
+// ====================================
+
 .col{
 	@each $column in $columns{
 		&--#{$column}{
@@ -88,6 +131,10 @@ $offsets: map-get(map-get($grid, small), offsets);
 		}
 	}
 }
+
+// ====================================
+// BREAKPOINT COLS & OFFSETS
+// ====================================
 
 @mixin makegrid(){
 	@each $size in $grid {
@@ -109,6 +156,7 @@ $offsets: map-get(map-get($grid, small), offsets);
 					&offset{
 						&--0{
 							margin-left: 0;
+							max-width: 100%;
 						}
 				
 						@each $offset in $offsets {

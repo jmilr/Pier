@@ -7,63 +7,75 @@
 // ====================================
 
 @function rem-calc($size) {
-    $remSize: ($size/16);
-    @return #{$remSize}rem;
+	$remSize: ($size/16);
+	@return #{$remSize}rem;
+}
+
+// ====================================
+// POW! RIGHT IN THE KISSER!
+// ====================================
+
+@function pow($number, $exponent) {
+	$value: 1;
+
+	@if $exponent > 0 {
+		@for $i from 1 through $exponent {
+			$value: $value * $number;
+		}
+	}
+
+	@return $value;
 }
 
 // ====================================
 // COLOR GETTER & COLORSET
 // ====================================
 // Create helper-classes of all colors
-// in $colors for the provided
+// in $helpers for the provided
 // properties
 // ====================================
 // USAGE:
 // Getter: color(primary) = returns hex code
-// colorSet([hover|active|focus or property], [property], [property,lighter|light|dark|darker]);
-// @include colorSet(hover, color, (background-color, dark));  
+// colourSet([hover|active|focus or property], [property], [property,lighter|light|dark|darker]);
+// @include colourSet(hover, color, (background-color, dark));
 // ====================================
 
-@function color($color, $tone: 'base') {
-    $color: map-get($colors, $color);
-    @if $tone=='lighter' {
-        @return lighten($color, 25%);
-    }
-    @else if $tone=='light' {
-        @return lighten($color, 10%);
-    }
-    @else if $tone=='dark' {
-        @return darken($color, 10%);
-    }
-    @else if $tone=='darker' {
-        @return darken($color, 25%);
-    }
-    @else {
-        @return $color;
-    }
+@function color($color, $tone: "base") {
+	$color: map-get($helpers, $color);
+	@if $tone== "lighter" {
+		@return scale-color($color, $saturation: 5%, $lightness: -50%);
+	} @else if $tone== "light" {
+		@return scale-color($color, $saturation: 5%, $lightness: 15%);
+	} @else if $tone== "dark" {
+		@return scale-color($color, $saturation: 5%, $lightness: -15%);
+	} @else if $tone== "darker" {
+		@return scale-color($color, $saturation: 5%, $lightness: -50%);
+	} @else if $tone== "uri" {
+		@return '%23' + str-slice('#{$color}', 2, -1);
+	} @else {
+		@return $color;
+	}
 }
 
-@mixin colorSet($modifier:null, $properties...) {
-    @if not index((hover, active, focus), $modifier) {
-        $properties: append($properties, $modifier);
-    }
-    @each $handle,
-    $color in $colors {
-        $class: $handle;
-        @if index((hover, active, focus), $modifier) {
-            $class: $handle+':'+$modifier;
-        }
-        &--#{$class} {
-            @each $property in $properties {
-                @if length($property)>=2 {
-                    #{nth($property, 1)}: color($handle, nth($property, 2));
-                }
-                @else {
-                    #{$property}: color($handle);
-                }
-            }
-        }
-    }
+@mixin colourSet($modifier: null, $properties...) {
+	@if not index((before, after, hover, active, focus), $modifier) {
+		$properties: append($properties, $modifier);
+	}
+	@each $helper, $color in $helpers {
+		$class: $helper;
+		@if index((before, after, hover, active, focus), $modifier) {
+			$class: $helper + ":" + $modifier;
+		}
+		&--#{$class} {
+			@each $property in $properties {
+				@if length($property) >=2 {
+					#{nth($property, 1)}: color($helper, nth($property, 2));
+				} @else {
+					#{$property}: color($helper);
+				}
+			}
+		}
+	}
 }
 
 // ====================================
@@ -77,34 +89,37 @@
 // spacers([property] [property]);
 // ====================================
 
-@mixin padding {
-    @each $size, $space in $spacers {
+$directions: (x, y, top, right, bottom, left);
+
+@mixin spacer($prop) {
+	@each $size, $space in $spacers {
 		&--#{$size} {
-			padding: #{$space}rem;
+			#{$prop}: #{$space}rem;
 		}
 	}
-    @each $direction in $directions{
-        @each $size, $space in $spacers {
-            &--#{$direction}--#{$size} {
-                padding-#{$direction}: #{$space}rem;
-            }
-        }
-    }
+	@each $direction in $directions {
+		@each $size, $space in $spacers {
+			&--#{$direction}--#{$size} {
+				@if $direction == "x" {
+					#{$prop}-left: #{$space}rem;
+					#{$prop}-right: #{$space}rem;
+				} @else if $direction == "y" {
+					#{$prop}-top: #{$space}rem;
+					#{$prop}-bottom: #{$space}rem;
+				} @else {
+					#{$prop}-#{$direction}: #{$space}rem;
+				}
+			}
+		}
+	}
+}
+
+@mixin padding {
+	@include spacer(padding);
 }
 
 @mixin margin {
-    @each $size, $space in $spacers {
-		&--#{$size} {
-			margin: #{$space}rem;
-		}
-	}
-    @each $direction in $directions{
-        @each $size, $space in $spacers {
-            &--#{$direction}--#{$size} {
-                margin-#{$direction}: #{$space}rem;
-            }
-        }
-    }
+	@include spacer(margin);
 }
 
 // ====================================
@@ -115,47 +130,42 @@
 // USAGE:
 // ====================================
 
-@mixin scale($level, $breakpoint: 'small') {
-	
+@mixin scale($level, $breakpoint: "small") {
 	$scale: 0;
-	
-	@if $breakpoint == 'large'{
-		$scale: $ratio;
-	} @else if $breakpoint == 'medium'{
-		$scale: $md-ratio;
-	} @else {
-		$scale: $sm-ratio;
-	}
 
-	@if $level == 'h1'{
-		font-size: #{$base * $scale * $scale * $scale * $scale}rem;
-		line-height: #{ceil($base * $scale * $scale * $scale * $scale)}rem;
-	} @else if $level == 'h2'{
-		font-size: #{$base * $scale * $scale * $scale}rem;
-		line-height: #{ceil($base * $scale * $scale * $scale)}rem;
-	} @else if $level == 'h3'{
-		font-size: #{$base * $scale * $scale}rem;
-		line-height: #{ceil($base * $scale * $scale)}rem;
-	} @else if $level == 'h4'{
-		font-size: #{$base * $scale}rem;
-		line-height: #{ceil($base * $scale)}rem;
-	} @else if $level == 'p'{
-		font-size: #{$base * $scale}rem;
-		line-height: #{ceil($base * $scale)}rem;
+	$scale: map-get($type-ratio, $breakpoint);
+	$base: map-get($type-base, $breakpoint);
+
+	@if $level == "h1" {
+		font-size: #{$base * pow($scale,4)};
+	} @else if $level == "h2" {
+		font-size: #{$base * pow($scale,3)};
+	} @else if $level == "h3" {
+		font-size: #{$base * pow($scale,2)};
+	} @else if $level == "h4" {
+		font-size: #{$base * $scale};
+	} @else if $level == "p" {
+		font-size: #{$base};
+	} @else if $level == "small" {
+		font-size: #{$base * 0.875};
 	} @else {
-		$scale: $ratio;
+		$scale: $scale;
 	}
 }
 
 @mixin size($level) {
 	@include scale($level, small);
-	
+
 	@include breakpoint(medium) {
 		@include scale($level, medium);
 	}
-	
+
 	@include breakpoint(large) {
 		@include scale($level, large);
+	}
+
+	@include breakpoint(huge) {
+		@include scale($level, huge);
 	}
 }
 
@@ -178,54 +188,61 @@
 	@each $direction in $directions {
 		@each $size, $width in $borders {
 			&--#{$direction}--#{$size} {
-				border-#{$direction}-style: solid;
-				border-#{$direction}-width: #{$width}px;
+				border-style: solid;
+				@if $direction == "x" {
+					border-left: #{$width}px;
+					border-right: #{$width}px;
+				} @else if $direction == "y" {
+					border-top: #{$width}px;
+					border-bottom: #{$width}px;
+				} @else {
+					border-#{$direction}: #{$width}px;
+				}
 			}
 		}
 	}
 }
 
 // ====================================
-// Radius
+// BORDERS
 // ====================================
 // Create helper-classes of all sizes
-// in $radii
+// in $borders
 // ====================================
 // USAGE:
 // ====================================
 
 @mixin radii {
-    @each $size, $radius in $radii{
+	@each $size, $radius in $radii {
 		&--#{$size} {
 			border-radius: #{$radius}rem;
 		}
 	}
 }
 
-@function radius($radius: 'base') {
-    $radius: map-get($radii, $radius);
-    @return #{$radius}rem;
+@function radius($radius: "base") {
+	$radius: map-get($radii, $radius);
+	@return #{$radius}rem;
 }
 
 @mixin clearfix {
-    &::before,
-    &::after {
-        content: ' ';
-        display: table;
-        flex-basis: 0;
-        order: 1;
-    }
-    &::after {
-        clear: both;
-    }
+	&::before,
+	&::after {
+		content: " ";
+		display: table;
+		flex-basis: 0;
+		order: 1;
+	}
+	&::after {
+		clear: both;
+	}
 }
 
 @mixin prefix($declarations, $prefixes: (webkit, moz, o, ms)) {
-    @each $property,
-    $value in $declarations {
-        @each $prefix in $prefixes {
-            #{'-' + $prefix + '-' + $property}: $value;
-        }
-        #{$property}: $value;
-    }
+	@each $property, $value in $declarations {
+		@each $prefix in $prefixes {
+			#{'-' + $prefix + '-' + $property}: $value;
+		}
+		#{$property}: $value;
+	}
 }

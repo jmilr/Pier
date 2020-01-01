@@ -2,7 +2,7 @@
 // GLOBAL HELPERS
 // ====================================
 
-.clearfix, [class^='row']{
+.clearfix{
 	&:before, &:after{
 		content: "";
 		display: table;
@@ -43,6 +43,8 @@
 .text--center{text-align: center;}
 .text--justify{text-align: justify;}
 
+.content--center{justify-content: center;}
+
 .float--right{float: right;}
 .float--left{float: left;}
 .float--none{float: none;}
@@ -57,20 +59,20 @@
 }
 
 .color{
-	@include colorSet(color);
+	@include colourSet(color);
 }
 
 .hover-color{
-	@include colorSet(hover,color);
+	@include colourSet(hover,color);
 }
 
 .background{
-	@include colorSet(background-color);
+	@include colourSet(background-color);
 }
 
 .border{
 	@include borders();
-	@include colorSet(border-color);
+	@include colourSet(border-color);
 }
 
 .margin{
@@ -90,6 +92,8 @@
 		&text--right{text-align: right;}
 		&text--center{text-align: center;}
 		&text--justify{text-align: justify;}
+
+		&content--center{justify-content: center;}
 
 		&float--right{float: right;}
 		&float--left{float: left;}
@@ -123,6 +127,8 @@
 		&text--right{text-align: right;}
 		&text--center{text-align: center;}
 		&text--justify{text-align: justify;}
+
+		&content--center{justify-content: center;}
 
 		&float--right{float: right;}
 		&float--left{float: left;}

@@ -20,7 +20,7 @@
 
 $breakpoints: (
 	small: 0,
-	medium: 768,
+	medium: 820,
 	large: 1220,
 	huge: 1872,
 	enormous: 2140,
@@ -28,8 +28,8 @@ $breakpoints: (
 
 $vbreakpoints: (
 	small: 0,
-	medium: 400,
-	large: 1200
+	medium: 800,
+	large: 1000
 ) !default;
 
 // ====================================
@@ -49,15 +49,15 @@ $vbreakpoints: (
 
 $grid:(
 	small: (
-		columns: (3,4,6,8),
-		offsets: (3,6)
+		columns: (3,4,5,6,8),
+		offsets: (2,3,6)
 	),
 	medium: (
-		columns: (3,4,6,8,9,10,12),
-		offsets: (1,2,3,4,6,8)
+		columns: (2,3,4,6,8,9,10,12),
+		offsets: (1,2,3,4,5,6,8)
 	),
 	large: (
-		columns: (2,3,4,6,8,9,10,12),
+		columns: (1,3,4,5,6,7,8,10,12),
 		offsets: (1,2,3,4,6,8,10)
 	),
 	huge: (
@@ -72,34 +72,17 @@ $row-width: $global-width !default;
 $column-count: 12 !default;
 
 // The gap between each column, in pixels
-$column-gutter: 36 !default;
-
-$rhythm: rem-calc($column-gutter / 2);
-$padding: $rhythm;
+$column-gutter: 84 !default;
 
 // ====================================
-// RADIUS SETTINGS
+// RADII SETTINGS
 // ====================================
 
 $radii:(
-	xsmall: .187,
-	small: .625,
-	base: 1,
-	large: 1.5
-);
-
-// ====================================
-// SPACING & BORDER SIDES
-// ====================================
-// Generate modifier classes for these
-// sides (margin/padding/border)
-// ====================================
-
-$directions:(
-	top,
-	right,
-	bottom,
-	left
+	xsmall: 0,
+	small: .1,
+	base: .1,
+	large: .3
 );
 
 // ====================================
@@ -116,10 +99,13 @@ $directions:(
 
 $spacers:(
 	0: 0,
-	1: .8,
-	2: 2.4,
-	3: 4,
-	4: 8
+	2: .6,
+	4: .8,
+	6: 1,
+	7: 1.4,
+	8: 2,
+	12: 3.4,
+	24: 4.8
 );
 
 // ====================================
@@ -134,10 +120,7 @@ $spacers:(
 
 $borders:(
 	0: 0,
-	2: 2,
-	4: 4,
-	8: 8,
-	12: 12
+	2: 2
 );
 
 // ====================================
@@ -149,38 +132,53 @@ $borders:(
 // @include size(h1);  
 // ====================================
 
-$base: 1;
+// $text-base: 1vw;
+// $text-max: 1rem;
 
-$ratio: 1.52;
-$md-ratio: $ratio * .95;
-$sm-ratio: $ratio * .82;
+// $ratio: 1.5;
+// $md-ratio: $ratio * 1.05;
+// $sm-ratio: $ratio * 1.2;
+
+$type-base:(
+	small: 3.8vw,
+	medium: 2vw,
+	large: 1.4vw,
+	huge: 1.3vw
+);
+
+$type-ratio:(
+	small: 1.26,
+	medium: 1.5,
+	large: 1.6,
+	huge: 1.575
+);
 
 $heading-weight: 900;
 
 // Font stacks.
-$primary: "Athletics", Helvetica, Arial, sans-serif;
-$accent: "Pressura", Helvetica, Arial, sans-serif;
-$letter-gothic: "Pressura", "Courier", monospace, sans-serif;
+$primary: "IBM Plex Mono", Helvetica, Arial, sans-serif;
+$accent: "Monument", Helvetica, Arial, sans-serif;
+$letter-gothic: "IBM Plex Mono", monospace, sans-serif;
 
 // Variables for the font stacks we want to use on this site.
 $global-font-family: $primary;
 $body-font: $primary;
 $monospace-font: $letter-gothic;
-$heading-font: $primary;
+$heading-font: $accent;
 
 // ====================================
 // COLORS SETTINGS
 // ====================================
-// Change to less dumb names
-// ====================================
+$pink:			#FE5D84;
+$slate:			#03080A;
+$grey:			#818794;
+$base:			#FFF;
+$white:			#FFF;
 
-$colors:(
-	default: #FBDDA1,
-	primary: #FEEB5F,
-	secondary: #FE5D84,
-	tertiary: #0EDAEC,
-	quaternary: #5A00FE,
-	white: #FFFFFF
+$helpers:(
+	default: $pink,
+	primary: $slate,
+	secondary: $white
 );
 
 // ====================================
@@ -192,11 +190,8 @@ $colors:(
 @import "_pier/mixins";
 @import "_pier/grid";
 
-// Boilerplates:
+// Optional:
 
 @import "_pier/reset";
 @import "_pier/print";
-
-// Optional:
-
 @import "_pier/helpers";
