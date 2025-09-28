@@ -1,197 +1,27 @@
-// ====================================
-// SETTINGS
-// ====================================
+@use "sass:map";
 
-// ====================================
-// PX TO REM CALCULATOR
-// ====================================
-// All values should be in px
-// (Don't modify this)
-// ====================================
+@forward "pier/config";
+@forward "pier/functions";
+@forward "pier/mixins";
+@forward "pier/grid";
+@forward "pier/layout";
+@forward "pier/utilities";
 
-@function rem-calc($size) {
-    $remSize: ($size/16);
-    @return #{$remSize}rem;
-}
+@use "pier/config" as config;
+@use "pier/functions" as fn;
+@use "pier/grid" as grid;
+@use "pier/utilities" as utilities;
+@use "pier/reset";
+@use "pier/print";
 
-// ====================================
-// GRID SETTINGS
-// ====================================
+$primary: fn.font-family(primary);
+$accent: fn.font-family(accent);
+$letter-gothic: fn.font-family(monospace);
 
-$breakpoints: (
-	small: 0,
-	medium: 820,
-	large: 1220,
-	huge: 1872,
-	enormous: 2140,
-) !default;
-
-$vbreakpoints: (
-	small: 0,
-	medium: 800,
-	large: 1000
-) !default;
-
-// ====================================
-// BUILD HORIZONTAL GRID
-// ====================================
-// Create a limited set of column
-// classes depending on project needs
-// All widths & breakpoints optional
-// ====================================
-// USAGE:
-// $grid:(
-// 		small: (columns(6),offsets()),
-// 		large: (columns(4),offsets())
-// 	)
-// .col--6 .large:col--4
-// ====================================
-
-$grid:(
-	small: (
-		columns: (3,4,5,6,8),
-		offsets: (2,3,6)
-	),
-	medium: (
-		columns: (2,3,4,6,8,9,10,12),
-		offsets: (1,2,3,4,5,6,8)
-	),
-	large: (
-		columns: (1,3,4,5,6,7,8,10,12),
-		offsets: (1,2,3,4,6,8,10)
-	),
-	huge: (
-		columns: (4,6,8,10,12), 
-		offsets: (2,4,6,8)
-	)
-);
-
-// The max-width of non-fluid rows
-$global-width: rem-calc(map-get($breakpoints, 'large')) !default;
-$row-width: $global-width !default;
-$column-count: 12 !default;
-
-// The gap between each column, in pixels
-$column-gutter: 84 !default;
-
-// ====================================
-// RADII SETTINGS
-// ====================================
-
-$radii:(
-	xsmall: 0,
-	small: .1,
-	base: .1,
-	large: .3
-);
-
-// ====================================
-// SPACING SETTINGS
-// ====================================
-// In rem
-// ====================================
-// USAGE:
-// @include margin();
-// @include padding();
-// .margin--left--2
-// .padding--left--2
-// ====================================
-
-$spacers:(
-	0: 0,
-	2: .6,
-	4: .8,
-	6: 1,
-	7: 1.4,
-	8: 2,
-	12: 3.4,
-	24: 4.8
-);
-
-// ====================================
-// BORDER SETTINGS
-// ====================================
-// In px
-// ====================================
-// USAGE:
-// @include borders();
-// .border--left--2
-// ====================================
-
-$borders:(
-	0: 0,
-	2: 2
-);
-
-// ====================================
-// FONTS
-// ====================================
-// Scale font sizes by a dynamic ratio
-// ====================================
-// USAGE:
-// @include size(h1);  
-// ====================================
-
-// $text-base: 1vw;
-// $text-max: 1rem;
-
-// $ratio: 1.5;
-// $md-ratio: $ratio * 1.05;
-// $sm-ratio: $ratio * 1.2;
-
-$type-base:(
-	small: 3.8vw,
-	medium: 2vw,
-	large: 1.4vw,
-	huge: 1.3vw
-);
-
-$type-ratio:(
-	small: 1.26,
-	medium: 1.5,
-	large: 1.6,
-	huge: 1.575
-);
-
-$heading-weight: 900;
-
-// Font stacks.
-$primary: "IBM Plex Mono", Helvetica, Arial, sans-serif;
-$accent: "Monument", Helvetica, Arial, sans-serif;
-$letter-gothic: "IBM Plex Mono", monospace, sans-serif;
-
-// Variables for the font stacks we want to use on this site.
 $global-font-family: $primary;
 $body-font: $primary;
 $monospace-font: $letter-gothic;
-$heading-font: $accent;
+$heading-font: fn.font-family(heading);
 
-// ====================================
-// COLORS SETTINGS
-// ====================================
-$pink:			#FE5D84;
-$slate:			#03080A;
-$grey:			#818794;
-$base:			#FFF;
-$white:			#FFF;
-
-$helpers:(
-	default: $pink,
-	primary: $slate,
-	secondary: $white
-);
-
-// ====================================
-// PIER MODULES
-// ====================================
-
-// Required:
-
-@import "_pier/mixins";
-@import "_pier/grid";
-
-// Optional:
-
-@import "_pier/reset";
-@import "_pier/print";
-@import "_pier/helpers";
+@include grid.generate-grid();
+@include utilities.generate-utilities();

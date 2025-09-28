@@ -6,29 +6,35 @@
   a:link,
   a:visited {
     text-decoration: underline !important;
+
     &.header__site-link {
       text-decoration: none !important;
     }
   }
+
   #content {
-    a[href]:after {
+    a[href]::after {
       content: " (" attr(href) ")";
       font-weight: normal;
     }
-    a[href^="javascript:"]:after,
-    a[href^="#"]:after {
+
+    a[href^='javascript:']::after,
+    a[href^='#']::after {
       content: "";
     }
-    abbr[title]:after {
+
+    abbr[title]::after {
       content: " (" attr(title) ")";
     }
   }
+
   #content {
     float: none !important;
     width: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
   }
+
   body,
   #page,
   #main,
@@ -37,6 +43,7 @@
     background-color: transparent !important;
     background-image: none !important;
   }
+
   #skip-link,
   #toolbar,
   .region-sidebar-first,
@@ -49,12 +56,14 @@
   .book-navigation,
   .forum-topic-navigation,
   .pager,
-  .feed-icons {
-    visibility: hidden;
-    display: none;
-  }
-  
-  #nav-primary, #nav-secondary, #sidebar, #footer-wrapper, .edit-link, #devmode{
-	  display: none;
+  .feed-icons,
+  #nav-primary,
+  #nav-secondary,
+  #sidebar,
+  #footer-wrapper,
+  .edit-link,
+  #devmode {
+    display: none !important;
+    visibility: hidden !important;
   }
 }
