@@ -1,0 +1,107 @@
+@use "sass:map";
+
+@use "config" as config;
+@use "functions" as fn;
+@use "grid";
+@use "layout";
+@use "mixins";
+
+@mixin _responsive-scope($breakpoint) {
+  @include grid.breakpoint($breakpoint) {
+    .#{$breakpoint}\:{
+      @content;
+    }
+  }
+}
+
+@mixin _utility-block() {
+  &border {
+    @include mixins.borders();
+  }
+
+  &margin {
+    @include mixins.margin();
+  }
+
+  &padding {
+    @include mixins.padding();
+  }
+
+  &radius {
+    @include mixins.radii();
+  }
+
+  &color {
+    @include mixins.colour-set(color);
+  }
+
+  &hover-color {
+    @include mixins.colour-set(hover, color);
+  }
+
+  &background {
+    @include mixins.colour-set(background-color);
+  }
+
+  &border-color {
+    @include mixins.colour-set(border-color);
+  }
+
+  &surface {
+    @include mixins.colour-set(background-color, (color contrast));
+  }
+
+  &flow {
+    @include layout.stack();
+  }
+
+  &cluster {
+    @include layout.cluster();
+  }
+
+  &auto-grid {
+    @include layout.auto-grid();
+  }
+
+  &container {
+    @include layout.container();
+  }
+}
+
+@mixin generate-utilities() {
+  :root {
+    @each $name, $space in config.$spacers {
+      --pier-space-#{$name}: #{$space};
+    }
+
+    @each $name, $radius in config.$radii {
+      --pier-radius-#{$name}: #{$radius};
+    }
+
+    @each $name, $color in config.$helpers {
+      --pier-color-#{$name}: #{fn.color($name)};
+    }
+  }
+
+  .border { @include mixins.borders(); }
+  .margin { @include mixins.margin(); }
+  .padding { @include mixins.padding(); }
+  .radius { @include mixins.radii(); }
+  .color { @include mixins.colour-set(color); }
+  .hover-color { @include mixins.colour-set(hover, color); }
+  .background { @include mixins.colour-set(background-color); }
+  .border-color { @include mixins.colour-set(border-color); }
+  .surface { @include mixins.colour-set(background-color, (color contrast)); }
+  .flow { @include layout.stack(); }
+  .cluster { @include layout.cluster(); }
+  .auto-grid { @include layout.auto-grid(); }
+  .container { @include layout.container(); }
+
+  @each $breakpoint, $settings in config.$grid {
+    @if $breakpoint != small {
+      @include _responsive-scope($breakpoint) {
+        @include _utility-block();
+      }
+    }
+  }
+}

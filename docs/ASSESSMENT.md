@@ -15,11 +15,20 @@ Pier is a compact Sass toolkit built around a few configuration maps in
 The code predates the modern Sass module system, but the mixins and functions
 remain expressive and easy to extract into other projects.
 
+## April 2024 refresh
+
+- Adopted the Sass module system with a single configurable config module.
+- Consolidated duplicated helpers (`rem-calc`, colour utilities) into shared functions.
+- Replaced float/clearfix helpers with modern layout primitives (stack, cluster, container).
+- Expanded colour handling to support contrast tones and custom tone maps.
+- Added responsive utility namespaces, CSS custom properties, and optional stack/cluster helpers.
+- Documented module usage and recipes in [`docs/USAGE.md`](USAGE.md).
+
 ## Highlights worth salvaging
 
 | Area | Why it still holds up |
 | --- | --- |
-| **Grid mixins** (`_pier/_grid.scss`) | Uses flexbox and map-driven configuration, making it easy to trim column counts per breakpoint. |
+| **Grid mixins** (`source/pier/_grid.scss`) | Uses flexbox and map-driven configuration, making it easy to trim column counts per breakpoint. |
 | **Spacing utilities** (`spacer`, `margin`, `padding` mixins) | Generates directional classes from a single `$spacers` map – a lightweight alternative to full utility frameworks. |
 | **Colour helpers** (`color`, `colourSet`) | Provides consistent tone variants and utility class generation from a small palette map. |
 | **Typography scale** (`scale`, `size`) | Ratio-based heading and paragraph sizing that adapts across breakpoints. |
@@ -31,10 +40,12 @@ utility generators without reaching for Tailwind/Bootstrap.
 
 ## Areas showing their age
 
+_Original notes retained for historical context:_
+
 - **Legacy `@import` syntax.** Everything relies on the deprecated global Sass
   namespace rather than the newer `@use` / `@forward` module system.
 - **Duplicated helpers.** `rem-calc` exists in both `_settings.scss` and
-  `_pier/_mixins.scss`, which can cause warnings in stricter build setups.
+  `source/pier/_mixins.scss`, which can cause warnings in stricter build setups.
 - **Global maps & naming.** Functions depend on globally scoped `$helpers`,
   `$spacers`, `$borders`, etc. – renaming variables requires touching several
   files.

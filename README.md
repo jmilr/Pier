@@ -2,152 +2,128 @@
 
 > A tiny, customisable Sass toolkit for building layout utilities.
 
-Pier was created as a personal alternative to larger frameworks such as
-Bootstrap or Tailwind. It focuses on a handful of mixins that generate grids,
-spacing helpers, colour variants, and typography rules from a single settings
-file. The framework has not been actively developed since around 2017, so the
-project now lives here as an archived, self-contained snapshot.
+Pier started life as a personal alternative to larger frameworks such as
+Bootstrap or Tailwind. The framework focuses on a handful of mixins that
+generate grids, spacing helpers, colour variants, and typography rules from a
+single settings map. The project is intentionally lightweight, but it now uses
+modern Sass modules and ships with a few layout primitives that make it easier
+to keep extending.
 
 ## Project status
 
-- ✅ **Works with modern Sass** – the codebase still compiles with the
-  Dart Sass compiler despite relying on the legacy `@import` syntax.
-- ⚠️ **Outdated patterns** – duplicate helper functions, heavy reliance on
-  global variables, and pre-flexbox fallbacks remain in the code.
-- 🌱 **Room to refine** – the grid, spacing, colour, and typography mixins are
-  modular enough to be extracted into future projects if desired.
+- ✅ **Module-first** – the entire toolkit now uses `@use`/`@forward` instead of
+the deprecated global `@import` approach.
+- ✅ **Token driven** – design tokens live in a single configurable module and
+are exposed as CSS custom properties for runtime tweaks.
+- 🌱 **Composable utilities** – grid, spacing, colour, layout and typography
+mixins can be cherry-picked or re-exported in other projects.
 
-For a detailed audit of the current source, see
-[`docs/ASSESSMENT.md`](docs/ASSESSMENT.md).
+For a detailed audit of the original source (and the motivation for this
+refresh), see [`docs/ASSESSMENT.md`](docs/ASSESSMENT.md).
 
 ## Features
 
-- Dependency-free Sass partials – import only the pieces you want.
-- Configurable grid, offset, and breakpoint maps.
-- Helper mixins that generate spacing, colour, border, and border-radius
-  utilities.
-- Type scale utilities driven by configurable ratios and base values.
+- Zero dependencies – import only the pieces you need.
+- Configurable grid, offset, and breakpoint maps exposed through modern mixins.
+- Helper mixins that generate spacing, colour, border, radius, and container
+utilities.
+- A ratio-driven typography scale with optional fluid sizing helpers.
+- Layout primitives (`stack`, `cluster`, `auto-grid`, `container`) that cover the
+most common “small-but-clever” patterns found in lean CSS frameworks.
+- Automatic CSS custom properties for colours, radii, and spacing tokens.
 
 ## Getting started
 
-1. Copy `_pier/` and `_settings.scss` into your project.
-2. Update `_settings.scss` to match your design tokens and grid needs.
-3. Import `settings.scss` at the top of your main Sass file.
-4. Optionally include the helper partials (`_helpers.scss`, `_buttons.scss`,
-   etc.) that ship with Pier.
+1. Copy the `source/pier/` directory (and `pier.scss` if you want a single entry
+   point) into your project.
+2. Configure tokens by loading the config module with overrides:
 
-See `_pier/helpers.scss` for usage examples of the mixins and generated
-utility classes.
+   ```scss
+   // settings.scss inside your project
+   @use "pier/config" with (
+     $helpers: (
+       default: #fe5d84,
+       primary: #03080a,
+       secondary: #ffffff,
+       info: (
+         base: #3c8ce7,
+         light: #4fa3ff,
+         dark: #1a5fb4
+       )
+     ),
+     $spacers: (
+       0: 0,
+       1: 0.5rem,
+       2: 0.75rem,
+       3: 1rem,
+       4: 1.5rem
+     )
+   );
+
+   @forward "pier";
+   @use "pier/grid" as grid;
+   @use "pier/utilities" as utilities;
+
+   @include grid.generate-grid();
+   @include utilities.generate-utilities();
+   ```
+
+3. Import the settings aggregator at the top of your main Sass file and alias it
+   however you prefer:
+
+   ```scss
+   @use "settings" as pier;
+
+   body {
+     font-family: pier.$primary;
+     color: pier.color(primary);
+   }
+   ```
+
+4. Optionally include the helper partials (`_buttons.scss`, etc.) that ship with
+   Pier – they already `@use` the settings aggregator.
+
+See `source/pier/_utilities.scss` for the utility classes generated out of the
+box, and `source/_buttons.scss` for how the colour helpers compose in practice.
+
+For additional recipes check out [`docs/USAGE.md`](docs/USAGE.md).
 
 ## Utility overview
 
-Pier’s Sass mixins include:
-
-`rem-calc($size)`
+`pier.rem-calc($size)`
 
 Translates pixel size to rems.
 
-```css
-    .example{
-        margin-left: rem-calc(36 / 2);
-        margin-left: 2rem;
-    }
-```
+`pier.color($token, $tone: base)`
 
-`color($color,[$tone:'base'])`
+Maps colours from the helpers map. `$tone` can be `lighter`, `light`, `dark`,
+`darker`, or `contrast`. Tokens can also be nested maps if you prefer to define
+bespoke tone values.
 
-Maps colours from `_settings.scss` for use in Sass with simple handles. `$tone`
-can be `lighter`, `light`, `dark` or `darker`.
+`pier.colour-set([$modifier], $properties...)`
 
-```scss
-    .example{
-        background: color(primary);
-        border-color: color(primary, dark);
-    }
-```
-```css
-    .example{
-        background: #FEEB5F;
-        border-color: #E5D246;
-    }
-```
+Generates a set of utility classes for each colour defined in the helpers map.
+`$modifier` can be `hover`, `focus`, `active`, `before`, `after`, or `disabled`.
+Pass a list such as `(border-color, dark)` to pull a specific tone for a given
+property.
 
-`colorSet([$modifier:null],$properties…)`
+`pier.margin()` / `pier.padding()`
 
-Generates a set of utility classes for each colour defined in `settings.scss`
-(`$colors`). `$modifier` can be `hover`, `active` or `focus`.
+Generate utility classes for each spacer in the config map. Directional variants
+(`x`, `y`, `inline`, `block`, `top`, `right`, `bottom`, `left`) are included.
 
-```scss
-    .btn{
-        @include colorSet(background-color, (border-color dark));
-        @include colorSet(hover, (background-color dark), border-color);
-        @include colorSet(active, (background-color light), border-color);
-    }
-```
-```css
-    .btn--primary {
-        background-color: #e6e6e6;
-        border-color: #fff
-    }
+`pier.size($level)`
 
-    .btn--primary:hover {
-        background-color: #e6e6e6;
-        border-color: #fff
-    }
+Returns font size for `$level` (`h1`, `h2`, `h3`, `h4`, `p`, `small`) across the
+configured breakpoints.
 
-    .btn--primary:active {
-        background-color: #fdefd2;
-        border-color: #fbdda1
-    }
-```
+`pier.borders()` and `pier.radii()`
 
-`margin()` and `padding()`
+Generate utility classes for border widths and radii. Radii values are also
+available via `pier.radius($token)` when you need them inline.
 
-Generate utility classes for sides, sizes in `_settings.scss` for margin &
-padding.
+`layout.stack($gap)` / `layout.cluster($gap)` / `layout.auto-grid($min, $gap)` /
+`layout.container($size)`
 
-```scss
-    .margin{
-        @include margin();
-    }
-```
-```css
-    .margin--0 { margin: 0 }
-
-    .margin--1 { margin: .8rem }
-
-    .margin--2 { margin: 2.4rem }
-
-    .margin--top--0 { margin-top: 0 }
-
-    .margin--top--1 { margin-top: .8rem }
-
-    .margin--top--2 { margin-top: 2.4rem }
-
-    .margin--bottom--0 { margin-bottom: 0 }
-
-    .margin--bottom--1 { margin-bottom: .8rem }
-
-    .margin--bottom--2 { margin-bottom: 2.4rem }
-```
-
-`scale($level,[$breakpoint: 'small'])`
-
-Output font size & linehight for specified heading level at specified
-breakpoint (optional, can be `small`, `medium` or `large`). `$level` can be
-`h1`, `h2`, `h3` , `h4`, `p`.
-
-```css
-    .example{
-        @include scale($level, small);
-    }
-```
-
-`size($level)`
-
-Returns font size and line-height for `$level` at 3 breakpoints (`small`,
-`medium`, `large`).
-
-`borders()`
-
-Generate utility classes for sides, sizes in `_settings.scss` for borders.
+Layout primitives that cover stacked flows, wrapping inline clusters, automatic
+grids, and responsive containers without relying on legacy float helpers.

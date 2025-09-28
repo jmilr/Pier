@@ -1,6 +1,6 @@
-@import "settings";
-@import "fonts";
-@import "buttons";
+@use "settings" as pier;
+@use "fonts";
+@use "buttons";
 
 // Include SVG CSS created by Dr. SVG Sprites
 @import "sprites";
@@ -21,7 +21,7 @@ $perspective: 1600;
 }
 
 html {
-	background: color(default);
+	background: pier.color(default);
 }
 
 body {
@@ -29,11 +29,11 @@ body {
 	margin: 0;
 	opacity: 0;
 
-	font-family: $primary;
+	font-family: pier.$primary;
 	font-weight: normal;
-	@include size(p);
+	@include pier.size(p);
 	line-height: 150%;
-	color: color(primary);
+	color: pier.color(primary);
 	width: 100%;
 	position: relative;
 	text-rendering: optimizeLegibility;
@@ -78,7 +78,7 @@ body {
 		padding-top: 10vh;
 		will-change: transform;
 
-		@include breakpoint(medium) {
+		@include pier.breakpoint(medium) {
 			padding-top: 121px;
 		}
 	}
@@ -96,11 +96,11 @@ body {
 h1,
 h2,
 h3 {
-	font-family: $heading-font;
+	font-family: pier.$heading-font;
 	line-height: 90%;
 	padding-bottom: 1em;
-	font-weight: $heading-weight;
-	color: color(primary);
+	font-weight: pier.$heading-weight;
+	color: pier.color(primary);
 
 	small {
 		font-size: 75%;
@@ -113,17 +113,17 @@ h1,
 h2,
 h3,
 h4 {
-	font-family: $heading-font;
+	font-family: pier.$heading-font;
 	text-transform: uppercase;
 }
 
 h1 {
-	@include size(h1);
+	@include pier.size(h1);
 	font-weight: 700;
 	letter-spacing: 0.5vw;
 	line-height: 0.8em;
 	-webkit-text-stroke: 1.4px currentcolor;
-	text-stroke: 1.4px color(primary);
+	text-stroke: 1.4px pier.color(primary);
 	-webkit-text-fill-color: transparent;
 	text-fill-color: transparent;
 
@@ -135,26 +135,26 @@ h1 {
 		font-weight: 700;
 	}
 
-	@include breakpoint(large){
+	@include pier.breakpoint(large){
 		-webkit-text-stroke-width: .075vw;
 		text-stroke-width: .075vw;
 	}
 }
 
 h2 {
-	@include size(h2);
+	@include pier.size(h2);
 	font-weight: 700;
 }
 
 h3 {
-	@include size(h3);
+	@include pier.size(h3);
 	font-weight: 700;
 	letter-spacing: .02em;
-	color: color(secondary);
+	color: pier.color(secondary);
 }
 
 h4 {
-	@include size(h4);
+	@include pier.size(h4);
 	font-weight: 400;
 	padding-bottom: 1em;
 }
@@ -165,7 +165,7 @@ h5 {
 	padding-bottom: 0.5em;
 	font-weight: bold;
 	text-transform: uppercase;
-	color: color(primary);
+	color: pier.color(primary);
 	letter-spacing: 0.2em;
 }
 
@@ -174,7 +174,7 @@ p {
 }
 
 a {
-	color: color(primary);
+	color: pier.color(primary);
 	text-decoration: none;
 	font-weight: 400;
 	position: relative;
@@ -219,11 +219,11 @@ a {
 
 .shape-overlays{
 	.shape-overlays__path:nth-of-type(1) {
-		fill: color(secondary);
+		fill: pier.color(secondary);
 	}
 
 	.shape-overlays__path:nth-of-type(2) {
-		fill: color(primary);
+		fill: pier.color(primary);
 	}
 
 	.shape-overlays__path:nth-of-type(3) {
@@ -252,8 +252,8 @@ a {
 }
 
 ::selection {
-	color: color(default);
-	background: color(primary);
+	color: pier.color(default);
+	background: pier.color(primary);
 }
 
 .navbar-brand {
@@ -283,7 +283,7 @@ a {
 	p:last-child {
 		margin-bottom: 3rem;
 
-		@include breakpoint(medium) {
+		@include pier.breakpoint(medium) {
 			margin-bottom: 6rem;
 		}
 	}
@@ -291,9 +291,9 @@ a {
 
 .richText a {
 	font-style: italic;
-	color: color(primary);
-	background: linear-gradient(color(secondary) 0%, color(secondary) 100%) no-repeat right bottom,
-		linear-gradient(color(primary) 0%, color(primary) 100%) no-repeat left bottom;
+	color: pier.color(primary);
+	background: linear-gradient(pier.color(secondary) 0%, pier.color(secondary) 100%) no-repeat right bottom,
+		linear-gradient(pier.color(primary) 0%, pier.color(primary) 100%) no-repeat left bottom;
 	background-size: 0% 1px, 100% 1px;
 	transition: background-size 0.1s ease-out;
 
@@ -329,10 +329,10 @@ sup {
 }
 
 pre {
-	background: color(primary);
-	border-radius: radius(small);
-	font-family: $letter-gothic;
-	border: 1px solid color(primary);
+	background: pier.color(primary);
+	border-radius: pier.radius(small);
+	font-family: pier.$letter-gothic;
+	border: 1px solid pier.color(primary);
 	overflow: scroll;
 	padding: 2rem;
 }
@@ -356,7 +356,7 @@ pre {
 	&:after {
 		width: 17px;
 		height: 15px;
-		background-image: url("data:image/svg+xml;utf8,<svg width='17' height='15' viewBox='0 0 17 15' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M16 7.5H0M16 7.5L9.5 1M16 7.5L9.5 14' stroke='#{color(primary, uri)}' stroke-width='1.4px'/></svg>");
+		background-image: url("data:image/svg+xml;utf8,<svg width='17' height='15' viewBox='0 0 17 15' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M16 7.5H0M16 7.5L9.5 1M16 7.5L9.5 14' stroke='#{pier.color(primary, uri)}' stroke-width='1.4px'/></svg>");
 		background-size: 17px 15px;
 		margin-left: 0.3rem;
 		margin-top: -2px;
@@ -374,7 +374,7 @@ pre {
 	&:before {
 		width: 20px;
 		height: 17px;
-		background-image: url("data:image/svg+xml;utf8,<svg width='20' height='17' viewBox='0 0 20 17' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M2.04211 5.5C1.37895 6.53125 1 7.09375 1 8.5C1 9.90625 1.37895 10.4688 2.04211 11.5C6.11579 17.5 13.8842 17.5 17.9579 11.5C18.6211 10.4688 19 9.90625 19 8.5C19 7.09375 18.6211 6.53125 17.9579 5.5C13.8842 -0.5 6.11579 -0.5 2.04211 5.5ZM6.77895 8.5C6.77895 10.2812 8.2 11.6875 10 11.6875C11.8 11.6875 13.2211 10.2812 13.2211 8.5C13.2211 6.71875 11.8 5.3125 10 5.3125C8.2 5.3125 6.77895 6.71875 6.77895 8.5Z' stroke='#{color(primary, uri)}'/></svg>
+		background-image: url("data:image/svg+xml;utf8,<svg width='20' height='17' viewBox='0 0 20 17' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M2.04211 5.5C1.37895 6.53125 1 7.09375 1 8.5C1 9.90625 1.37895 10.4688 2.04211 11.5C6.11579 17.5 13.8842 17.5 17.9579 11.5C18.6211 10.4688 19 9.90625 19 8.5C19 7.09375 18.6211 6.53125 17.9579 5.5C13.8842 -0.5 6.11579 -0.5 2.04211 5.5ZM6.77895 8.5C6.77895 10.2812 8.2 11.6875 10 11.6875C11.8 11.6875 13.2211 10.2812 13.2211 8.5C13.2211 6.71875 11.8 5.3125 10 5.3125C8.2 5.3125 6.77895 6.71875 6.77895 8.5Z' stroke='#{pier.color(primary, uri)}'/></svg>
 		");
 		background-size: 20px 17px;
 		margin-top: -3px;
@@ -398,24 +398,24 @@ table {
 			font-weight: 700;
 			text-transform: uppercase;
 			font-size: 0.9rem;
-			border: 1.5px solid color(primary);
+			border: 1.5px solid pier.color(primary);
 			border-left: none;
 			&:first-child {
-				border-left: 1.5px solid color(primary);
-				border-top-left-radius: radius();
+				border-left: 1.5px solid pier.color(primary);
+				border-top-left-radius: pier.radius();
 			}
 			&:last-child {
-				border-top-right-radius: radius();
+				border-top-right-radius: pier.radius();
 			}
 		}
 		&:last-child {
 			tr {
 				th {
 					&:first-child {
-						border-bottom-left-radius: radius();
+						border-bottom-left-radius: pier.radius();
 					}
 					&:last-child {
-						border-bottom-right-radius: radius();
+						border-bottom-right-radius: pier.radius();
 					}
 				}
 			}
@@ -423,19 +423,19 @@ table {
 	}
 	tr {
 		td {
-			border-right: 1.5px solid color(primary);
-			border-bottom: 1.5px solid color(primary);
+			border-right: 1.5px solid pier.color(primary);
+			border-bottom: 1.5px solid pier.color(primary);
 			&:first-child {
-				border-left: 1.5px solid color(primary);
+				border-left: 1.5px solid pier.color(primary);
 			}
 		}
 		&:last-child {
 			td {
 				&:first-child {
-					border-bottom-left-radius: radius();
+					border-bottom-left-radius: pier.radius();
 				}
 				&:last-child {
-					border-bottom-right-radius: radius();
+					border-bottom-right-radius: pier.radius();
 				}
 			}
 		}
@@ -474,9 +474,9 @@ table {
 			&:before {
 				content: counter(li) ".";
 				font-size: 1rem;
-				font-family: $primary;
+				font-family: pier.$primary;
 				font-weight: 900;
-				color: color(primary);
+				color: pier.color(primary);
 				margin-left: -1.5rem;
 				margin-right: 0.8rem;
 				border-radius: 0.8rem;
@@ -511,15 +511,15 @@ table {
 			h4 {
 				padding-bottom: 0;
 				a {
-					color: color(primary);
+					color: pier.color(primary);
 				}
 			}
 		}
 		dd {
 			padding-bottom: 2rem;
 			margin-bottom: 2rem;
-			border-bottom: 1px solid color(primary);
-			@include breakpoint(medium) {
+			border-bottom: 1px solid pier.color(primary);
+			@include pier.breakpoint(medium) {
 				padding-bottom: 3rem;
 				margin-bottom: 3rem;
 			}
@@ -533,12 +533,12 @@ table {
 	blockquote {
 		margin-bottom: 1.8rem;
 		padding: 1.2rem 2rem;
-		border-left: 3px solid color(primary);
+		border-left: 3px solid pier.color(primary);
 		font-weight: 100;
-		color: color(primary);
+		color: pier.color(primary);
 
 		p {
-			@include size(h4);
+			@include pier.size(h4);
 			line-height: 140%;
 			margin-bottom: 1rem;
 			&:last-child {
@@ -551,7 +551,7 @@ table {
 		line-height: 0;
 		padding-bottom: 3rem;
 
-		@include breakpoint(medium) {
+		@include pier.breakpoint(medium) {
 			padding-bottom: 6rem;
 		}
 
@@ -560,7 +560,7 @@ table {
 		}
 
 		img {
-			border-radius: radius();
+			border-radius: pier.radius();
 		}
 	}
 }
@@ -582,18 +582,18 @@ table {
 .foot {
 	font-size: 85%;
 	font-weight: 300;
-	color: color(primary);
+	color: pier.color(primary);
 }
 
 .lead {
 	@extend .btn--text;
 	font-size: 115%;
 	font-weight: bold;
-	color: color(default);
+	color: pier.color(default);
 }
 
 .accent {
-	font-family: $accent;
+	font-family: pier.$accent;
 	letter-spacing: -0.02em;
 	font-weight: bold;
 	text-transform: lowercase;
@@ -624,10 +624,10 @@ i.icon {
 	-ms-user-select: none;
 	user-select: none;
 
-	border-bottom: 1px solid color(primary);
+	border-bottom: 1px solid pier.color(primary);
 	transform-style: preserve-3d;
 
-	@include breakpoint(medium) {
+	@include pier.breakpoint(medium) {
 		min-height: calc(95vh - 121px);
 	}
 
@@ -638,10 +638,10 @@ i.icon {
 		
 		p {
 			font-style: italic;
-			color: color(secondary);
+			color: pier.color(secondary);
 
 			a {
-				color: color(secondary);
+				color: pier.color(secondary);
 				font-weight: normal;
 
 				&:hover {
@@ -650,17 +650,17 @@ i.icon {
 			}
 
 			strong {
-				color: color(secondary);
+				color: pier.color(secondary);
 				font-weight: 700;
 				font-style: normal;
 			}
-			@include breakpoint(medium) {
+			@include pier.breakpoint(medium) {
 				font-size: 1.2em;
 				line-height: 1.6em;
 			}
 
-			@include breakpoint(large) {
-				color: color(primary);
+			@include pier.breakpoint(large) {
+				color: pier.color(primary);
 
 				strong {
 					font-weight: 400;
@@ -682,7 +682,7 @@ i.icon {
 
 	h1 {
 		padding-bottom: 0.15em;
-		color: color(primary);
+		color: pier.color(primary);
 		font-family: "Pillow", "Monument";
 		font-weight: 100;
 		letter-spacing: -0.2vw;
@@ -693,12 +693,12 @@ i.icon {
 		text-fill-color: currentColor;
 
 		strong{
-			color: color(secondary);
+			color: pier.color(secondary);
 			font-family: "Monument";
 			letter-spacing: 0.5vw;
 		}
 
-		@include breakpoint(large){
+		@include pier.breakpoint(large){
 			font-size: 10vw;
 		}
 	}
@@ -729,7 +729,7 @@ i.icon {
 
 	
 }
-@include breakpoint(large) {
+@include pier.breakpoint(large) {
 	#hero {
 		.circ--inner {
 			animation: cw 44s linear infinite;
@@ -760,7 +760,7 @@ i.icon {
 				content: "";
 				display: block;
 				width: 0;
-				border-bottom: 1.8px solid color(secondary);
+				border-bottom: 1.8px solid pier.color(secondary);
 				top: 50%;
 				left: 50%;
 				position: absolute;
@@ -827,7 +827,7 @@ i.icon {
 		opacity: .4;
 	}
 
-	@include breakpoint(medium) {
+	@include pier.breakpoint(medium) {
 		top: 50%;
 		left: auto;
 		width: 100%;
@@ -841,7 +841,7 @@ i.icon {
 		}
 	}
 
-	@include breakpoint(large) {
+	@include pier.breakpoint(large) {
 		width: 70%;
 		padding-bottom: 70%;
 	}
@@ -859,18 +859,18 @@ img {
 	max-width: 2600px;
 	position: relative;
 	
-	@include breakpoint(large) {
+	@include pier.breakpoint(large) {
 		@include zoom(200);
 	}
 
 	figure {
 		margin-bottom: 3vw;
-		@include breakpoint(medium) {
+		@include pier.breakpoint(medium) {
 			margin-bottom: 6vw;
 		}
 
 		img {
-			border-radius: radius();
+			border-radius: pier.radius();
 		}
 	}
 }
@@ -885,10 +885,10 @@ img {
 	height: 0;
 	padding-bottom: 56.25%;
 	overflow: hidden;
-	border-radius: radius();
+	border-radius: pier.radius();
 	margin-bottom: 3rem;
 
-	@include breakpoint(medium) {
+	@include pier.breakpoint(medium) {
 		margin-bottom: 6rem;
 	}
 
@@ -904,14 +904,14 @@ img {
 
 #work {
 	h2 {
-		@include size(h3);
+		@include pier.size(h3);
 		margin-bottom: 3rem;
 		font-weight: 900;
 	}
 
 	header {
 		h3 {
-			color: color(primary);
+			color: pier.color(primary);
 		}
 	}
 
@@ -928,22 +928,22 @@ img {
 	transform-style: preserve-3d;
 
 	h3 {
-		color: color(primary);
+		color: pier.color(primary);
 	}
 
 	figure {
 		img {
 			width: 100%;
-			border-radius: radius();
+			border-radius: pier.radius();
 			margin-bottom: 2rem;
 
-			@include breakpoint(medium) {
+			@include pier.breakpoint(medium) {
 				margin-bottom: 3rem;
 			}
 		}
 
 		figcaption {
-			color: color(primary);
+			color: pier.color(primary);
 			position: relative;
 
 			p {
@@ -963,10 +963,10 @@ img {
 		font-size: .65em;
 		text-transform: uppercase;
 		padding: .2em .8em;
-		border-bottom: 1px solid color(primary);
+		border-bottom: 1px solid pier.color(primary);
 		font-weight: 300;
 
-		@include breakpoint(medium){
+		@include pier.breakpoint(medium){
 			&:last-of-type{
 				border-bottom: none;
 			}
@@ -977,12 +977,12 @@ img {
 		font-weight: 700;
 	}
 
-	@include breakpoint(medium){
+	@include pier.breakpoint(medium){
 		grid-template-columns: auto auto;
-		border: 1px solid color(primary);
+		border: 1px solid pier.color(primary);
 
 		dt{
-			border-right: 1px solid color(primary);
+			border-right: 1px solid pier.color(primary);
 		}
 	}
 
@@ -999,9 +999,9 @@ textarea {
 	margin-bottom: 2vw;
 
 	font-style: italic;
-	color: color(primary);
-	background: linear-gradient(color(secondary) 0%, color(secondary) 100%) no-repeat right bottom,
-		linear-gradient(color(primary) 0%, color(primary) 100%) no-repeat left bottom;
+	color: pier.color(primary);
+	background: linear-gradient(pier.color(secondary) 0%, pier.color(secondary) 100%) no-repeat right bottom,
+		linear-gradient(pier.color(primary) 0%, pier.color(primary) 100%) no-repeat left bottom;
 	background-size: 0% 1px, 100% 1px;
 	transition: background-size 0.1s ease-out;
 
@@ -1011,7 +1011,7 @@ textarea {
 }
 
 label {
-	color: color(secondary);
+	color: pier.color(secondary);
 	display: block;
 	margin-bottom: 0.6vw;
 }
@@ -1019,19 +1019,19 @@ label {
 input[type="Submit"] {
 	background: none;
 	box-shadow: none;
-	color: color(primary);
+	color: pier.color(primary);
 	display: inline-block;
 	font-weight: 300;
-	border-radius: radius(xsmall);
-	border: 1px solid color(primary);
+	border-radius: pier.radius(xsmall);
+	border: 1px solid pier.color(primary);
 	line-height: 1.8rem;
 	font-style: normal;
 	transition: border-color .2s ease-out, color .2s ease-out;
 
 	&:hover{
 		font-weight: 900;
-		color: color(secondary);
-		border-color: color(secondary);
+		color: pier.color(secondary);
+		border-color: pier.color(secondary);
 	}
 }
 
@@ -1040,9 +1040,9 @@ input#confirm {
 }
 
 .errors {
-	background: color(primary);
+	background: pier.color(primary);
 	padding: 0.2rem 0.5rem;
-	color: color(default);
+	color: pier.color(default);
 	margin-top: -1.6rem;
 	font-size: 0.85em;
 	line-height: 1.4em;
