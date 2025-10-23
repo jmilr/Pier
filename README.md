@@ -26,10 +26,12 @@ refresh), see [`docs/ASSESSMENT.md`](docs/ASSESSMENT.md).
 - Zero dependencies – import only the pieces you need.
 - Configurable grid, offset, and breakpoint maps exposed through modern mixins.
 - Helper mixins that generate spacing, colour, border, radius, and container
-utilities.
+  utilities.
 - A ratio-driven typography scale with optional fluid sizing helpers.
 - Layout primitives (`stack`, `cluster`, `auto-grid`, `container`) that cover the
-most common “small-but-clever” patterns found in lean CSS frameworks.
+  most common “small-but-clever” patterns found in lean CSS frameworks.
+- Token registration helpers that emit design tokens as CSS custom properties,
+  including tone variants for every colour helper.
 - Automatic CSS custom properties for colours, radii, and spacing tokens.
 
 ## Getting started
@@ -82,6 +84,17 @@ most common “small-but-clever” patterns found in lean CSS frameworks.
 
 4. Optionally include the helper partials (`_buttons.scss`, etc.) that ship with
    Pier – they already `@use` the settings aggregator.
+
+   ```scss
+   @use "pier/tokens" as tokens;
+
+   // Publish tokens without generating any utility classes.
+   @include tokens.register(".design-system");
+   ```
+
+   The default utility bundle still calls `tokens.register()` internally, but
+   the dedicated module makes it easy to scope or rename the CSS custom
+   properties that Pier emits.
 
 See `source/pier/_utilities.scss` for the utility classes generated out of the
 box, and `source/_buttons.scss` for how the colour helpers compose in practice.

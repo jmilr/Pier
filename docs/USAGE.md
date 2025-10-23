@@ -10,6 +10,7 @@ prefer. All modules live inside `source/pier/`.
 | `pier/mixins` | Core mixins for spacing, borders, radii, typography, and colour utility generation. |
 | `pier/grid` | Flexbox grid mixins plus the `generate-grid()` helper that outputs responsive `.row`, `.col`, and `.offset` classes. |
 | `pier/layout` | Layout primitives: `stack`, `cluster`, `auto-grid`, and `container`. |
+| `pier/tokens` | Emits design tokens as CSS custom properties. Configure scope, prefix, and which token groups to publish. |
 | `pier/utilities` | Generates the default utility classes and publishes tokens as CSS custom properties. |
 
 The quickest way to get started is to create a settings file that configures the
@@ -38,6 +39,25 @@ tokens and forwards the rest of the modules:
 
 @include grid.generate-grid();
 @include utilities.generate-utilities();
+```
+
+`generate-utilities()` now accepts optional parameters for token scope and
+prefixes. To publish tokens inside a wrapper while keeping the default utility
+classes, pass the options through:
+
+```scss
+@include utilities.generate-utilities(
+  $token-scope: ".design-system",
+  $token-prefix: "ds"
+);
+```
+
+If you only need the CSS custom properties, call the token helper directly:
+
+```scss
+@use "pier/tokens" as tokens;
+
+@include tokens.register($prefix: "ds", $include: (colors, spaces));
 ```
 
 In your application styles you can then alias the settings module and call the
