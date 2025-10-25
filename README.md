@@ -1,6 +1,6 @@
 # Pier
 
-> A tiny, customisable Sass toolkit for building layout utilities.
+> 🚧 A lightweight & tidy SASS framework
 
 Pier started life as a personal alternative to larger frameworks such as
 Bootstrap or Tailwind. The framework focuses on a handful of mixins that
