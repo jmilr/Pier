@@ -1,6 +1,10 @@
-// ====================================
-// RESET
-// ====================================
+// -----------------------------------------------------------------------------
+// Base reset
+// -----------------------------------------------------------------------------
+// Normalises element defaults to provide a clean starting point for Pier-based
+// projects. This file only outputs static CSS and is automatically included by
+// the bundled entry points.
+// -----------------------------------------------------------------------------
 
 html,
 body,

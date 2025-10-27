@@ -6,6 +6,14 @@
 @use "config" as config;
 @use "functions" as fn;
 
+// -----------------------------------------------------------------------------
+// Pier mixins
+// -----------------------------------------------------------------------------
+// Layout and design helpers used to generate utilities, colour variants, and
+// typography scales. Import these via `@use "pier" as pier;` to call
+// mixins like `pier.breakpoint()` or `pier.colour-set()` directly.
+// -----------------------------------------------------------------------------
+
 @mixin breakpoint($breakpoint, $direction: min, $orientation: width) {
   $map: if($orientation == height, config.$vbreakpoints, config.$breakpoints);
 

@@ -1,0 +1,140 @@
+@use "functions" as fn;
+@use "mixins";
+
+// -----------------------------------------------------------------------------
+// Button component styles
+// -----------------------------------------------------------------------------
+// Minimal button styling that leverages Pier's colour helpers and spacing
+// tokens. Automatically included by the bundled build but can be imported
+// manually via `@use "pier/buttons"`.
+// -----------------------------------------------------------------------------
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: fn.spacer(2);
+  padding: 0.6rem 1rem;
+  vertical-align: middle;
+  font-weight: bold;
+  font-family: fn.font-family(primary);
+
+  color: fn.color(secondary);
+  border-radius: fn.radius();
+  position: relative;
+  transition: background-color 0.4s ease, color 0.1s ease, box-shadow 0.3s ease;
+
+  @include mixins.colour-set(background-color, (border-color, dark));
+  @include mixins.colour-set-state(hover, (background-color, dark), border-color);
+  @include mixins.colour-set-state(active, (background-color, light), border-color);
+  @include mixins.colour-set-state(focus, (background-color, light));
+
+  &:focus-visible {
+    box-shadow: 0 0 0 0.2rem rgba(fn.color(primary), 0.35);
+  }
+
+  &--large {
+    margin: 0;
+    padding: 1rem 1.4rem;
+    font-size: 1.4rem;
+    border-radius: fn.radius(large);
+  }
+
+  &--small {
+    margin: 0;
+    padding: 0.2rem 0.6rem;
+    border-radius: fn.radius(small);
+  }
+
+  &--xsmall {
+    margin: 0;
+    padding: 0.1rem 0.2rem;
+    border-radius: fn.radius(small);
+  }
+}
+
+input.btn,
+input + .btn:last-child {
+  border-bottom-width: 1px;
+}
+
+.group {
+  position: relative;
+  display: block;
+
+  input {
+    transition: border-color 0.2s ease;
+    -webkit-appearance: none;
+    box-shadow: none;
+    border-radius: 0;
+
+    color: fn.color(secondary);
+
+    &.large {
+      padding-left: 0.8rem;
+      padding-right: 0.8rem;
+    }
+
+    &:focus,
+    &:active {
+      border-color: fn.color(secondary);
+    }
+  }
+
+  @include mixins.breakpoint(medium, max) {
+    .btn {
+      display: inline-flex;
+
+      & + .btn {
+        margin-top: -1px;
+      }
+
+      & + .btn:not(:last-child) {
+        border-radius: 0;
+      }
+
+      &:first-child:not(:last-child) {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+
+      &:last-child:not(:first-child) {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+      }
+    }
+  }
+
+  @include mixins.breakpoint(medium) {
+    display: inline-flex;
+
+    input {
+      flex: 1;
+    }
+
+    .btn {
+      width: auto;
+
+      & + .btn {
+        margin-top: 0;
+        margin-left: -1px;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+
+      & + .btn:not(:last-child) {
+        border-radius: 0;
+      }
+
+      &:first-child:not(:last-child) {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+
+      &:last-child:not(:first-child) {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+    }
+  }
+}

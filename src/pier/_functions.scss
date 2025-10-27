@@ -7,6 +7,16 @@
 
 @use "config" as config;
 
+// -----------------------------------------------------------------------------
+// Pier utility functions
+// -----------------------------------------------------------------------------
+// A collection of helpers that provide access to theme tokens, colour
+// calculations, layout primitives, and type scale lookups. These functions are
+// re-exported through the package entry point so they can be consumed via
+// `@use "pier" as pier;` and referenced with `pier.color()`,
+// `pier.spacer()`, etc.
+// -----------------------------------------------------------------------------
+
 @function rem-calc($size, $base: config.$root-font-size) {
   @if meta.type-of($size) == "number" and math.is-unitless($size) {
     $size: $size * 1px;
