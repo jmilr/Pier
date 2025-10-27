@@ -1,0 +1,44 @@
+@use "config";
+@use "layout";
+@use "mixins" as mix;
+
+// -----------------------------------------------------------------------------
+// Layout patterns
+// -----------------------------------------------------------------------------
+
+.stack {
+  --stack-gap: var(--stack-gap, var(--pier-stack-gap, #{config.$stack-default-gap}));
+  @include layout.stack(var(--stack-gap));
+}
+
+.cluster {
+  --cluster-gap: var(--cluster-gap, var(--pier-cluster-gap, #{config.$cluster-default-gap}));
+  --cluster-align: var(--cluster-align, var(--pier-cluster-align, #{config.$cluster-align}));
+  @include layout.cluster(var(--cluster-gap), var(--cluster-align));
+}
+
+.container {
+  --container-gutter: var(--container-gutter, calc(var(--pier-space-unit, #{config.$space-unit}) * 4));
+  @include layout.container();
+
+  &--wide { @include layout.container(wide); }
+  &--narrow { @include layout.container(narrow); }
+}
+
+.sidebar {
+  --sidebar-side: var(--sidebar-side, 30%);
+  --sidebar-gap: var(--sidebar-gap, var(--pier-stack-gap, #{config.$stack-default-gap}));
+  @include layout.sidebar(var(--sidebar-side), var(--sidebar-gap));
+}
+
+.nav {
+  --nav-gap: var(--nav-gap, var(--pier-cluster-gap, #{config.$cluster-default-gap}));
+  @include layout.nav(var(--nav-gap));
+}
+
+.cover {
+  --cover-min: var(--cover-min, 60vh);
+  --cover-align: var(--cover-align, center);
+  --cover-justify: var(--cover-justify, center);
+  @include layout.cover(var(--cover-min), var(--cover-align), var(--cover-justify));
+}

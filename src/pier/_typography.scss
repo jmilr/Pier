@@ -1,9 +1,64 @@
+@use "sass:map";
+@use "config";
+@use "functions" as fn;
+@use "typography.roles" as roles;
+
 // -----------------------------------------------------------------------------
-// Typography helpers
-// -----------------------------------------------------------------------------
-// Convenience re-exports for the core typography mixins. Import via
-// `@use "pier/typography" as type;` to access `type.size()` and
-// `type.fluid-size()` without pulling in unrelated mixins.
+// Base typography
 // -----------------------------------------------------------------------------
 
-@forward "mixins" show scale, size, fluid-size, font-feature;
+body {
+  font-family: var(--pier-font-base, #{config.$font-stack});
+  line-height: var(--pier-line-base, #{map.get(config.$line-heights, base)});
+  color: var(--pier-color-text, #{config.$color-text});
+  background: var(--pier-color-bg, #{config.$color-background});
+  font-size: clamp(
+    var(--pier-type-md-min, 1rem),
+    calc(var(--pier-type-md-min, 1rem) + 0.2vw),
+    var(--pier-type-md-max, 1.0625rem)
+  );
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--pier-font-display, #{config.$font-stack-display});
+  font-weight: config.$heading-weight;
+  line-height: var(--pier-line-tight, #{map.get(config.$line-heights, tight)});
+  margin: 0 0 fn.spacer(3);
+}
+
+h1 { @include roles.pier-text(4xl, config.$heading-weight); }
+h2 { @include roles.pier-text(3xl, config.$heading-weight); }
+h3 { @include roles.pier-text(2xl, config.$heading-weight); }
+h4 { @include roles.pier-text(xl, config.$heading-weight); }
+h5 { @include roles.pier-text(lg, config.$heading-weight); }
+h6 { @include roles.pier-text(md, config.$heading-weight); }
+
+p {
+  margin: 0 0 fn.spacer(3);
+  line-height: var(--pier-line-base, #{map.get(config.$line-heights, base)});
+}
+
+ul,
+ol {
+  padding-left: fn.spacer(4);
+  margin: 0 0 fn.spacer(3);
+  line-height: inherit;
+}
+
+code,
+pre {
+  font-family: var(--pier-font-mono, #{config.$font-stack-mono});
+  background: var(--pier-color-surface, #{config.$color-surface});
+  padding: 0.2em 0.35em;
+  border-radius: var(--pier-radius-base, #{config.$radius-base});
+}
+
+pre {
+  padding: fn.spacer(3);
+  overflow-x: auto;
+}

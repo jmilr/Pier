@@ -1,0 +1,275 @@
+@use "sass:map";
+@use "functions" as fn;
+@use "states";
+
+// -----------------------------------------------------------------------------
+// Form controls – base styles
+// -----------------------------------------------------------------------------
+// Provides the foundational styling for text inputs, selects, checkboxes, and
+// other interactive controls. Variants derive from CSS custom properties exposed
+// by the component token layer.
+// -----------------------------------------------------------------------------
+
+$input-sizes: (
+  sm: (
+    font-size: 0.875rem,
+    padding-y: calc(var(--pier-input-padding-y, #{fn.spacer(2)}) * 0.7),
+    padding-x: calc(var(--pier-input-padding-x, #{fn.spacer(3)}) * 0.85),
+    height: 2.25rem,
+  ),
+  md: (
+    font-size: 1rem,
+    padding-y: var(--pier-input-padding-y, #{fn.spacer(3)}),
+    padding-x: var(--pier-input-padding-x, #{fn.spacer(4)}),
+    height: 2.75rem,
+  ),
+  lg: (
+    font-size: 1.125rem,
+    padding-y: calc(var(--pier-input-padding-y, #{fn.spacer(3)}) * 1.2),
+    padding-x: calc(var(--pier-input-padding-x, #{fn.spacer(4)}) * 1.2),
+    height: 3.25rem,
+  ),
+) !default;
+
+@mixin pier-input(
+  $size: md,
+  $variant: outline,
+  $icon-left: false,
+  $icon-right: false
+) {
+  $config: map.get($input-sizes, $size);
+
+  font-size: map.get($config, font-size);
+  min-height: map.get($config, height);
+  padding: map.get($config, padding-y) map.get($config, padding-x);
+  padding-left: calc(#{map.get($config, padding-x)} + var(--pier-input-icon-offset-left, 0px));
+  padding-right: calc(#{map.get($config, padding-x)} + var(--pier-input-icon-offset-right, 0px));
+  @if $icon-left {
+    --pier-input-icon-offset-left: calc(var(--pier-input-icon-size, 1.125rem) + var(--pier-input-gap, #{fn.spacer(2)}));
+  }
+  @if $icon-right {
+    --pier-input-icon-offset-right: calc(var(--pier-input-icon-size, 1.125rem) + var(--pier-input-gap, #{fn.spacer(2)}));
+  }
+  background-color: if($variant == filled, var(--pier-input-filled-bg, rgba(0, 0, 0, 0.02)), var(--pier-input-bg, #fff));
+  border: if($variant == filled, var(--pier-input-border-muted, 1px solid rgba(0, 0, 0, 0.1)), var(--pier-input-border, 1px solid rgba(0, 0, 0, 0.12)));
+  border-radius: var(--pier-input-radius, #{fn.radius()});
+  box-shadow: var(--pier-input-shadow, none);
+  color: var(--pier-input-fg, inherit);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+
+  @include states.focus-ring(var(--pier-input-focus-ring, var(--pier-focus-ring-color)));
+
+  &:focus,
+  &:focus-visible {
+    border: var(--pier-input-border-active, 1px solid var(--pier-color-accent));
+  }
+
+  &::placeholder {
+    color: var(--pier-input-placeholder, rgba(0, 0, 0, 0.6));
+  }
+
+  &:disabled,
+  &[aria-disabled="true"],
+  &.is-disabled {
+    background: var(--pier-input-disabled-bg, rgba(0, 0, 0, 0.04));
+    color: var(--pier-input-disabled-fg, rgba(0, 0, 0, 0.45));
+    cursor: not-allowed;
+  }
+
+  &.is-readonly,
+  &:read-only {
+    background: var(--pier-input-bg);
+    border: var(--pier-input-border-muted, 1px solid rgba(0, 0, 0, 0.08));
+    color: inherit;
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pier-input-gap, #{fn.spacer(2)});
+  width: 100%;
+}
+
+.label {
+  font-weight: 600;
+  color: var(--pier-color-text, inherit);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pier-input-gap, #{fn.spacer(2)});
+}
+
+.help {
+  font-size: 0.875rem;
+  color: var(--pier-input-help, var(--pier-color-muted));
+}
+
+.input,
+.textarea,
+.select {
+  display: block;
+  width: 100%;
+  font: inherit;
+  color: inherit;
+  background-color: transparent;
+  appearance: none;
+
+  @include pier-input();
+}
+
+.input {
+  &--sm { @include pier-input(sm); }
+  &--lg { @include pier-input(lg); }
+  &--filled { @include pier-input(md, filled); }
+  &--icon-left { --pier-input-icon-offset-left: calc(var(--pier-input-icon-size, 1.125rem) + var(--pier-input-gap, #{fn.spacer(2)})); }
+  &--icon-right { --pier-input-icon-offset-right: calc(var(--pier-input-icon-size, 1.125rem) + var(--pier-input-gap, #{fn.spacer(2)})); }
+}
+
+.textarea {
+  min-height: 8rem;
+  resize: vertical;
+  line-height: var(--pier-line-relaxed, 1.6);
+}
+
+.select {
+  position: relative;
+  padding-right: calc(var(--pier-input-padding-x, #{fn.spacer(4)}) * 1.6);
+  background-image:
+    linear-gradient(45deg, transparent 50%, currentColor 50%),
+    linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position:
+    calc(100% - var(--pier-input-padding-x, #{fn.spacer(4)}) * 0.8) calc(50% - 0.25em),
+    calc(100% - var(--pier-input-padding-x, #{fn.spacer(4)}) * 0.4) calc(50% - 0.25em);
+  background-size: 0.5em 0.5em;
+  background-repeat: no-repeat;
+}
+
+.checkbox,
+.radio,
+.switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pier-input-gap, #{fn.spacer(2)});
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+
+.checkbox input,
+.radio input,
+.switch input {
+  appearance: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: var(--pier-input-border, 1px solid rgba(0, 0, 0, 0.12));
+  border-radius: calc(var(--pier-input-radius, #{fn.radius()}) * 0.75);
+  background-color: var(--pier-input-bg);
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+
+  @include states.focus-ring(var(--pier-input-focus-ring));
+}
+
+.checkbox input:checked {
+  background: var(--pier-color-accent);
+  border-color: var(--pier-color-accent);
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0.25rem;
+    border: solid var(--pier-color-accent-contrast);
+    border-width: 0 0.125rem 0.125rem 0;
+    transform: rotate(45deg);
+  }
+}
+
+.radio input {
+  border-radius: 999px;
+}
+
+.radio input:checked {
+  border-color: var(--pier-color-accent);
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0.3rem;
+    border-radius: 999px;
+    background: var(--pier-color-accent);
+  }
+}
+
+.switch input {
+  width: 2.75rem;
+  border-radius: 999px;
+  background: var(--pier-input-disabled-bg, rgba(0, 0, 0, 0.05));
+}
+
+.switch input::after {
+  content: "";
+  position: absolute;
+  top: 0.125rem;
+  left: 0.125rem;
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 50%;
+  background: var(--pier-input-bg, #fff);
+  transition: transform 0.2s ease;
+}
+
+.switch input:checked {
+  background: var(--pier-color-accent);
+  border-color: var(--pier-color-accent);
+}
+
+.switch input:checked::after {
+  transform: translateX(1.4rem);
+  background: var(--pier-color-accent-contrast);
+}
+
+.range {
+  width: 100%;
+  appearance: none;
+  height: 0.35rem;
+  border-radius: 999px;
+  background: var(--pier-input-disabled-bg, rgba(0, 0, 0, 0.12));
+}
+
+.range::-webkit-slider-thumb {
+  appearance: none;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  background: var(--pier-color-accent);
+  border: 0;
+  cursor: pointer;
+}
+
+.range::-moz-range-thumb {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  background: var(--pier-color-accent);
+  border: 0;
+  cursor: pointer;
+}
+
+.file {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pier-input-gap, #{fn.spacer(2)});
+  padding: var(--pier-input-padding-y) var(--pier-input-padding-x);
+  border: var(--pier-input-border);
+  border-radius: var(--pier-input-radius);
+  background: var(--pier-input-bg);
+}
+
+.file input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}

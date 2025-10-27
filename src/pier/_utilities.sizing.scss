@@ -1,0 +1,33 @@
+@use "sass:map";
+@use "config";
+
+// -----------------------------------------------------------------------------
+// Sizing utilities
+// -----------------------------------------------------------------------------
+
+$widths: (
+  25: 25%,
+  50: 50%,
+  75: 75%,
+  100: 100%,
+) !default;
+
+@mixin pier-sizing-utilities($map: $widths) {
+  @each $key, $value in $map {
+    .w-#{$key} { width: $value; }
+  }
+
+  .w-auto { width: auto; }
+  .h-auto { height: auto; }
+  .h-100 { height: 100%; }
+
+  .max-w-prose { max-width: 65ch; }
+  .max-w-wide {
+    max-width: if(
+      map.has-key(config.$container-widths, wide),
+      map.get(config.$container-widths, wide),
+      92rem
+    );
+  }
+  .max-w-full { max-width: 100%; }
+}

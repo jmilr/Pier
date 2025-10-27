@@ -1,0 +1,116 @@
+@use "sass:map";
+
+// -----------------------------------------------------------------------------
+// Tooltip pattern
+// -----------------------------------------------------------------------------
+
+$placements: (
+  top: (
+    inset: auto auto calc(100% + var(--pier-tooltip-offset, 0.5rem)) 50%,
+    translate: -50% calc(-1 * var(--pier-tooltip-offset, 0.5rem)),
+  ),
+  right: (
+    inset: 50% auto auto calc(100% + var(--pier-tooltip-offset, 0.5rem)),
+    translate: calc(var(--pier-tooltip-offset, 0.5rem)) -50%,
+  ),
+  bottom: (
+    inset: calc(100% + var(--pier-tooltip-offset, 0.5rem)) auto auto 50%,
+    translate: -50% var(--pier-tooltip-offset, 0.5rem),
+  ),
+  left: (
+    inset: 50% calc(100% + var(--pier-tooltip-offset, 0.5rem)) auto auto,
+    translate: calc(-1 * var(--pier-tooltip-offset, 0.5rem)) -50%,
+  ),
+) !default;
+
+[data-tooltip] {
+  position: relative;
+}
+
+[data-tooltip]::after,
+[data-tooltip]::before {
+  position: absolute;
+  left: 50%;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.15s ease;
+  pointer-events: none;
+}
+
+[data-tooltip]::after {
+  content: attr(data-tooltip);
+  background: var(--pier-tooltip-bg, rgba(17, 17, 17, 0.94));
+  color: var(--pier-tooltip-fg, #fff);
+  padding: var(--pier-tooltip-padding-y, 0.4rem) var(--pier-tooltip-padding-x, 0.6rem);
+  border-radius: var(--pier-tooltip-radius, 0.25rem);
+  box-shadow: var(--pier-tooltip-shadow, 0 10px 20px rgba(0, 0, 0, 0.2));
+  font-size: 0.875rem;
+  white-space: nowrap;
+  z-index: 20;
+}
+
+[data-tooltip]::before {
+  content: "";
+  border-width: 6px;
+  border-style: solid;
+  border-color: transparent;
+  z-index: 10;
+}
+
+[data-tooltip]:hover::after,
+[data-tooltip]:focus-visible::after,
+[data-tooltip]:hover::before,
+[data-tooltip]:focus-visible::before {
+  opacity: 1;
+  visibility: visible;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-tooltip]::after,
+  [data-tooltip]::before {
+    transition: none;
+  }
+}
+
+@each $placement, $settings in $placements {
+  $primary-axis: map.get($settings, inset);
+  $transform: map.get($settings, translate);
+
+  [data-tooltip],
+  [data-tooltip][data-tooltip-pos="#{$placement}"] {
+    &::after {
+      inset: #{$primary-axis};
+      transform: translate(#{$transform});
+    }
+
+    &::before {
+      inset: #{$primary-axis};
+      transform: translate(#{$transform});
+      border-#{$placement}-color: var(--pier-tooltip-bg, rgba(17, 17, 17, 0.94));
+    }
+  }
+}
+
+@mixin pier-tooltip($pos: top) {
+  position: relative;
+
+  &::after,
+  &::before {
+    position: absolute;
+  }
+
+  @if map.has-key($placements, $pos) {
+    $config: map.get($placements, $pos);
+
+    &::after {
+      inset: #{map.get($config, inset)};
+      transform: translate(#{map.get($config, translate)});
+    }
+
+    &::before {
+      inset: #{map.get($config, inset)};
+      transform: translate(#{map.get($config, translate)});
+      border-#{$pos}-color: var(--pier-tooltip-bg, rgba(17, 17, 17, 0.94));
+    }
+  }
+}

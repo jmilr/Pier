@@ -1,0 +1,34 @@
+@use "sass:map";
+
+// -----------------------------------------------------------------------------
+// Typography roles
+// -----------------------------------------------------------------------------
+
+@mixin pier-text($size, $weight: null, $line: null, $tracking: null) {
+  font-size: clamp(
+    var(--pier-type-#{$size}-min, 1rem),
+    calc(var(--pier-type-#{$size}-min, 1rem) + 1vw),
+    var(--pier-type-#{$size}-max, 1.125rem)
+  );
+  font-weight: if($weight != null, $weight, inherit);
+  line-height: if($line != null, $line, var(--pier-line-base, 1.5));
+  letter-spacing: if($tracking != null, $tracking, normal);
+}
+
+.lead {
+  @include pier-text(lg, 500, var(--pier-line-relaxed, 1.7));
+  color: var(--pier-color-text);
+}
+
+.small {
+  @include pier-text(sm, null, var(--pier-line-snug, 1.4));
+}
+
+.muted {
+  color: var(--pier-color-muted);
+}
+
+.mono {
+  font-family: var(--pier-font-mono, monospace);
+  font-variant-ligatures: none;
+}

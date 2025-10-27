@@ -1,0 +1,57 @@
+@use "sass:meta";
+
+// -----------------------------------------------------------------------------
+// State patterns and helpers
+// -----------------------------------------------------------------------------
+// Shared interaction styles used across buttons, inputs, and inline controls.
+// -----------------------------------------------------------------------------
+
+@mixin focus-ring($color: var(--pier-focus-ring-color), $offset: 2px, $width: 2px) {
+  outline: none;
+
+  &:focus-visible {
+    box-shadow: 0 0 0 $offset #{$color};
+  }
+}
+
+@mixin interactive {
+  cursor: pointer;
+  text-decoration: none;
+
+  &:disabled,
+  &[aria-disabled="true"],
+  &.is-disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+@mixin transition($properties...) {
+  $list: if(meta.type-of($properties) == "list", $properties, ($properties,));
+
+  transition: $list;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.is-hovered {
+  &,
+  &:hover {
+    filter: brightness(0.96);
+  }
+}
+
+.is-active {
+  &,
+  &:active {
+    filter: brightness(0.9);
+  }
+}
+
+.is-disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+  pointer-events: none;
+}

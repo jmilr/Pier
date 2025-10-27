@@ -1,140 +1,127 @@
+@use "sass:map";
 @use "functions" as fn;
-@use "mixins";
+@use "states";
 
 // -----------------------------------------------------------------------------
 // Button component styles
 // -----------------------------------------------------------------------------
-// Minimal button styling that leverages Pier's colour helpers and spacing
-// tokens. Automatically included by the bundled build but can be imported
-// manually via `@use "pier/buttons"`.
+// Semantic buttons powered by the component token CSS variables. Consumers can
+// override tokens via the theme maps or by redeclaring custom properties in a
+// specific scope.
 // -----------------------------------------------------------------------------
 
-.btn {
+@mixin _btn-base() {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: fn.spacer(2);
-  padding: 0.6rem 1rem;
-  vertical-align: middle;
-  font-weight: bold;
-  font-family: fn.font-family(primary);
-
-  color: fn.color(secondary);
-  border-radius: fn.radius();
+  gap: var(--pier-btn-gap, fn.spacer(2));
+  padding: var(--pier-btn-padding-y, fn.spacer(3)) var(--pier-btn-padding-x, fn.spacer(4));
+  font: inherit;
+  font-weight: var(--pier-btn-font-weight, 600);
+  text-transform: var(--pier-btn-text-transform, none);
+  border-radius: var(--pier-btn-radius, fn.radius());
+  border: var(--pier-btn-border, 1px solid transparent);
+  background: var(--pier-btn-bg, fn.color(primary));
+  color: var(--pier-btn-fg, var(--pier-color-accent-contrast, #fff));
+  box-shadow: var(--pier-btn-shadow, none);
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease,
+    transform 0.15s ease;
   position: relative;
-  transition: background-color 0.4s ease, color 0.1s ease, box-shadow 0.3s ease;
+  text-decoration: none;
+  line-height: 1;
 
-  @include mixins.colour-set(background-color, (border-color, dark));
-  @include mixins.colour-set-state(hover, (background-color, dark), border-color);
-  @include mixins.colour-set-state(active, (background-color, light), border-color);
-  @include mixins.colour-set-state(focus, (background-color, light));
+  @include states.interactive;
+  @include states.focus-ring();
+}
 
-  &:focus-visible {
-    box-shadow: 0 0 0 0.2rem rgba(fn.color(primary), 0.35);
-  }
-
-  &--large {
-    margin: 0;
-    padding: 1rem 1.4rem;
-    font-size: 1.4rem;
-    border-radius: fn.radius(large);
-  }
-
-  &--small {
-    margin: 0;
-    padding: 0.2rem 0.6rem;
-    border-radius: fn.radius(small);
-  }
-
-  &--xsmall {
-    margin: 0;
-    padding: 0.1rem 0.2rem;
-    border-radius: fn.radius(small);
+@mixin _btn-size($name, $scale) {
+  &--#{$name} {
+    font-size: map.get($scale, font-size, 1rem);
+    padding: map.get($scale, padding-y, var(--pier-btn-padding-y)) map.get($scale, padding-x, var(--pier-btn-padding-x));
+    border-radius: map.get($scale, radius, var(--pier-btn-radius));
+    min-height: map.get($scale, min-height, auto);
   }
 }
 
-input.btn,
-input + .btn:last-child {
-  border-bottom-width: 1px;
+.btn {
+  @include _btn-base();
+
+  &:hover,
+  &.is-hovered {
+    background: var(--pier-btn-hover-bg, fn.color(primary, dark));
+  }
+
+  &:active,
+  &.is-active {
+    background: var(--pier-btn-active-bg, fn.color(primary, darker));
+    transform: translateY(1px);
+  }
+
+  &:disabled,
+  &[aria-disabled="true"],
+  &.is-disabled {
+    background: var(--pier-btn-disabled-bg, fn.color(primary, lighter));
+    color: var(--pier-btn-disabled-fg, var(--pier-color-muted));
+    cursor: not-allowed;
+    opacity: 0.8;
+  }
+
+  &.is-loading {
+    color: transparent;
+    pointer-events: none;
+
+    &::after {
+      content: "";
+      width: 1em;
+      height: 1em;
+      border-radius: 50%;
+      border: 2px solid currentColor;
+      border-right-color: transparent;
+      animation: pier-spin 0.75s linear infinite;
+    }
+  }
+
+  &--subtle {
+    background: var(--pier-btn-subtle-bg, transparent);
+    color: var(--pier-btn-subtle-fg, fn.color(primary));
+    border-color: transparent;
+  }
+
+  &--outline {
+    background: transparent;
+    color: var(--pier-btn-fg, fn.color(primary));
+    border: var(--pier-btn-outline-border, 1px solid fn.color(primary));
+  }
+
+  &--ghost {
+    background: var(--pier-btn-ghost-bg, transparent);
+    color: var(--pier-btn-ghost-fg, fn.color(primary));
+    border: 1px solid transparent;
+  }
+
+  @include _btn-size(sm, (
+    font-size: 0.875rem,
+    padding-y: calc(var(--pier-btn-padding-y, fn.spacer(3)) * 0.7),
+    padding-x: calc(var(--pier-btn-padding-x, fn.spacer(4)) * 0.8),
+    radius: calc(var(--pier-btn-radius, fn.radius()) * 0.85),
+  ));
+
+  @include _btn-size(md, (
+    min-height: 2.5rem,
+  ));
+
+  @include _btn-size(lg, (
+    font-size: 1.1rem,
+    padding-y: calc(var(--pier-btn-padding-y, fn.spacer(3)) * 1.2),
+    padding-x: calc(var(--pier-btn-padding-x, fn.spacer(4)) * 1.2),
+    radius: calc(var(--pier-btn-radius, fn.radius()) * 1.1),
+  ));
 }
 
-.group {
-  position: relative;
-  display: block;
-
-  input {
-    transition: border-color 0.2s ease;
-    -webkit-appearance: none;
-    box-shadow: none;
-    border-radius: 0;
-
-    color: fn.color(secondary);
-
-    &.large {
-      padding-left: 0.8rem;
-      padding-right: 0.8rem;
-    }
-
-    &:focus,
-    &:active {
-      border-color: fn.color(secondary);
-    }
-  }
-
-  @include mixins.breakpoint(medium, max) {
-    .btn {
-      display: inline-flex;
-
-      & + .btn {
-        margin-top: -1px;
-      }
-
-      & + .btn:not(:last-child) {
-        border-radius: 0;
-      }
-
-      &:first-child:not(:last-child) {
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
-      }
-
-      &:last-child:not(:first-child) {
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
-      }
-    }
-  }
-
-  @include mixins.breakpoint(medium) {
-    display: inline-flex;
-
-    input {
-      flex: 1;
-    }
-
-    .btn {
-      width: auto;
-
-      & + .btn {
-        margin-top: 0;
-        margin-left: -1px;
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-      }
-
-      & + .btn:not(:last-child) {
-        border-radius: 0;
-      }
-
-      &:first-child:not(:last-child) {
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-      }
-
-      &:last-child:not(:first-child) {
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-      }
-    }
+@keyframes pier-spin {
+  to {
+    transform: rotate(1turn);
   }
 }
+

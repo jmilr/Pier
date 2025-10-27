@@ -1,0 +1,160 @@
+@use "sass:map";
+@use "sass:meta";
+
+// -----------------------------------------------------------------------------
+// Component token helpers
+// -----------------------------------------------------------------------------
+// Converts values from a theme map into CSS custom properties for component
+// layers. These helpers intentionally avoid importing the theme module to keep
+// dependency graphs lean – callers should pass an explicit theme map when
+// querying tokens.
+// -----------------------------------------------------------------------------
+
+@function _theme-value($theme, $key, $fallback: null) {
+  @if map.has-key($theme, $key) {
+    $value: map.get($theme, $key);
+    @if $value != null {
+      @return $value;
+    }
+  }
+
+  @return $fallback;
+}
+
+@function _component-map($theme) {
+  @if map.has-key($theme, components) {
+    @return map.get($theme, components);
+  }
+
+  @return ();
+}
+
+@function pier-component-token($component, $token, $theme) {
+  $components: _component-map($theme);
+
+  @if map.has-key($components, $component) {
+    $config: map.get($components, $component);
+
+    @if map.has-key($config, $token) {
+      @return map.get($config, $token);
+    }
+  }
+
+  @return null;
+}
+
+@function _state-token($theme, $state) {
+  $components: _component-map($theme);
+
+  @if map.has-key($components, states) {
+    $states: map.get($components, states);
+
+    @if map.has-key($states, $state) {
+      @return map.get($states, $state);
+    }
+  }
+
+  @return null;
+}
+
+@mixin _emit-button-vars($theme, $selector) {
+  #{$selector} {
+    --pier-btn-bg: #{pier-component-token(button, bg, $theme)};
+    --pier-btn-fg: #{pier-component-token(button, fg, $theme)};
+    --pier-btn-border: #{pier-component-token(button, border, $theme)};
+    --pier-btn-border-color: #{pier-component-token(button, border-color, $theme)};
+    --pier-btn-gap: #{pier-component-token(button, gap, $theme)};
+    --pier-btn-radius: #{pier-component-token(button, radius, $theme)};
+    --pier-btn-padding-y: #{pier-component-token(button, padding-y, $theme)};
+    --pier-btn-padding-x: #{pier-component-token(button, padding-x, $theme)};
+    --pier-btn-shadow: #{pier-component-token(button, shadow, $theme)};
+    --pier-btn-text-transform: #{pier-component-token(button, text-transform, $theme)};
+    --pier-btn-font-weight: #{pier-component-token(button, font-weight, $theme)};
+    --pier-btn-hover-bg: #{pier-component-token(button, hover-bg, $theme)};
+    --pier-btn-active-bg: #{pier-component-token(button, active-bg, $theme)};
+    --pier-btn-disabled-bg: #{pier-component-token(button, disabled-bg, $theme)};
+    --pier-btn-disabled-fg: #{pier-component-token(button, disabled-fg, $theme)};
+    --pier-btn-subtle-bg: #{pier-component-token(button, subtle-bg, $theme)};
+    --pier-btn-subtle-fg: #{pier-component-token(button, subtle-fg, $theme)};
+    --pier-btn-ghost-bg: #{pier-component-token(button, ghost-bg, $theme)};
+    --pier-btn-ghost-fg: #{pier-component-token(button, ghost-fg, $theme)};
+    --pier-btn-outline-border: #{pier-component-token(button, outline-border, $theme)};
+  }
+}
+
+@mixin _emit-input-vars($theme, $selector) {
+  #{$selector} {
+    --pier-input-bg: #{pier-component-token(input, bg, $theme)};
+    --pier-input-fg: #{pier-component-token(input, fg, $theme)};
+    --pier-input-border: #{pier-component-token(input, border, $theme)};
+    --pier-input-border-active: #{pier-component-token(input, border-active, $theme)};
+    --pier-input-border-muted: #{pier-component-token(input, border-muted, $theme)};
+    --pier-input-radius: #{pier-component-token(input, radius, $theme)};
+    --pier-input-padding-y: #{pier-component-token(input, padding-y, $theme)};
+    --pier-input-padding-x: #{pier-component-token(input, padding-x, $theme)};
+    --pier-input-gap: #{pier-component-token(input, gap, $theme)};
+    --pier-input-placeholder: #{pier-component-token(input, placeholder, $theme)};
+    --pier-input-shadow: #{pier-component-token(input, shadow, $theme)};
+    --pier-input-filled-bg: #{pier-component-token(input, filled-bg, $theme)};
+    --pier-input-disabled-bg: #{pier-component-token(input, disabled-bg, $theme)};
+    --pier-input-disabled-fg: #{pier-component-token(input, disabled-fg, $theme)};
+    --pier-input-focus-ring: #{pier-component-token(input, focus-ring, $theme)};
+    --pier-input-help: #{pier-component-token(input, help-text, $theme)};
+    --pier-input-icon-size: #{pier-component-token(input, icon-size, $theme)};
+  }
+}
+
+@mixin _emit-card-vars($theme, $selector) {
+  #{$selector} {
+    --pier-card-bg: #{pier-component-token(card, bg, $theme)};
+    --pier-card-fg: #{pier-component-token(card, fg, $theme)};
+    --pier-card-border: #{pier-component-token(card, border, $theme)};
+    --pier-card-radius: #{pier-component-token(card, radius, $theme)};
+    --pier-card-shadow: #{pier-component-token(card, shadow, $theme)};
+    --pier-card-padding: #{pier-component-token(card, padding, $theme)};
+  }
+}
+
+@mixin _emit-tooltip-vars($theme, $selector) {
+  #{$selector} {
+    --pier-tooltip-bg: #{pier-component-token(tooltip, bg, $theme)};
+    --pier-tooltip-fg: #{pier-component-token(tooltip, fg, $theme)};
+    --pier-tooltip-radius: #{pier-component-token(tooltip, radius, $theme)};
+    --pier-tooltip-shadow: #{pier-component-token(tooltip, shadow, $theme)};
+    --pier-tooltip-offset: #{pier-component-token(tooltip, offset, $theme)};
+    --pier-tooltip-padding-y: #{pier-component-token(tooltip, padding-y, $theme)};
+    --pier-tooltip-padding-x: #{pier-component-token(tooltip, padding-x, $theme)};
+  }
+}
+
+@mixin _emit-state-vars($theme, $selector) {
+  #{$selector} {
+    --pier-color-success: #{_state-token($theme, success)};
+    --pier-color-warning: #{_state-token($theme, warning)};
+    --pier-color-danger: #{_state-token($theme, danger)};
+  }
+}
+
+@mixin pier-component-css-vars($theme, $selector: ":root") {
+  @include _emit-button-vars($theme, $selector);
+  @include _emit-input-vars($theme, $selector);
+  @include _emit-card-vars($theme, $selector);
+  @include _emit-tooltip-vars($theme, $selector);
+  @include _emit-state-vars($theme, $selector);
+}
+
+@function pier-type-fluid($size, $theme) {
+  $scale: _theme-value($theme, type-scale, ());
+
+  @if map.has-key($scale, $size) {
+    $settings: map.get($scale, $size);
+    $min: _theme-value($settings, min);
+    $max: _theme-value($settings, max);
+
+    @if $min != null and $max != null {
+      @return clamp(var(--pier-type-#{$size}-min), 1vw + #{$min}, var(--pier-type-#{$size}-max));
+    }
+  }
+
+  @return null;
+}

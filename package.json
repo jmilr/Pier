@@ -6,10 +6,11 @@
     "pier": "./bin/pier"
   },
   "scripts": {
-    "build": "npm run build:core && npm run build:full && npm run build:min",
+    "build": "npm run build:css && npm run build:css:min && npm run build:core",
+    "build:css": "sass --no-source-map src/full.scss dist/pier.css",
+    "build:css:min": "sass --no-source-map --style=compressed src/full.scss dist/pier.min.css",
     "build:core": "sass --no-source-map src/pier-core.scss dist/pier-core.css",
-    "build:full": "sass --no-source-map src/full.scss dist/pier.css",
-    "build:min": "sass --no-source-map --style=compressed src/full.scss dist/pier.min.css"
+    "demo": "npm run build:css && node -e \"console.log('Demo ready – open index.html in your browser.')\""
   },
   "devDependencies": {
     "sass": "^1.71.1"

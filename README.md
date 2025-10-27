@@ -1,136 +1,123 @@
 # Pier
 
-> 🚧 A lightweight & tidy Sass framework
+> Light-but-robust Sass primitives for design systems that grow with you.
 
-Pier started life as a personal alternative to larger frameworks such as
-Bootstrap or Tailwind. The framework focuses on a handful of mixins that
-generate grids, spacing helpers, colour variants, and typography rules from a
-single theme map. This refresh modernises the module structure, introduces a
-first-class configuration layer, and ships with a turn-key bundle for rapid
-onboarding.
+Pier is a modular Sass framework that compiles alongside your application. It
+ships layout mixins, theming hooks, form controls, and component tokens without
+forcing a specific runtime. Everything is dependency free and tree-shakeable via
+selective `@use` imports.
 
 ## Quick start
+
+Install directly from GitHub:
 
 ```bash
 npm install github:jmilr/pier
 ```
 
-Import the pre-bundled stylesheet to emit the reset, utilities, grid helpers,
-and button styles in one line:
+Drop the unified entry point into your Sass build, apply the default theme, and
+emit the grid + utility layers:
 
 ```scss
-@use "pier/all";
-```
+@use "pier/_all" as pier;
 
-Prefer to keep the namespace? Alias the package instead:
-
-```scss
-@use "pier" as pier;
-
+@include pier.pier-apply-theme(pier.$pier-theme);
+@include pier.pier-apply-theme(pier.$pier-theme-dark, "[data-theme='dark']");
 @include pier.generate-grid();
 @include pier.generate-utilities();
 ```
 
-## Theme overrides
-
-All configurable values (colours, spacing, fonts, radii, breakpoints) live in a
-single `$pier-theme` map. Override only the keys you care about by calling the
-`pier-theme()` mixin before generating any CSS:
+Need fewer layers? Each module is exported individually so you can opt-in to
+only the pieces you care about:
 
 ```scss
-// _theme.scss
-@use "pier" as *;
-@forward "pier";
-
-@include pier-theme((
-  color-accent: #ff7849,
-  space-unit: 0.75rem,
-  helpers: (
-    brand: #6633ff,
-  ),
-));
-
-@include generate-grid();
-@include generate-utilities();
-```
-
-Now import your theme file from your application stylesheet:
-
-```scss
-@use "theme" as *;
-```
-
-Every config variable also respects `$pier-theme-overrides`, so you can apply
-overrides inline when using the one-line bundle:
-
-```scss
-@use "pier/all" with (
-  $pier-theme-overrides: (
-    radius: 0.75rem,
-    helpers: (primary: #14213d),
-  ),
-);
-```
-
-## CLI helper
-
-Generate the starter `_theme.scss` (shown above) with zero configuration:
-
-```bash
-npx pier init
-```
-
-The script creates the file in your current working directory, includes the
-package import, and adds commented override examples so you can tweak values
-quickly.
-
-## Modular imports
-
-Pier exposes every layer via `@forward` so you can cherry-pick pieces:
-
-```scss
-@use "pier/functions" as fn;
 @use "pier/layout" as layout;
-@use "pier/typography" as type;
+@use "pier/forms.base" as forms;
 
 .my-card {
-  @include layout.stack(fn.spacer(4));
-  font-family: fn.font-family(primary);
-  @include type.size(h3);
+  @include layout.stack(2rem);
+  @include forms.pier-input($variant: filled);
 }
 ```
 
-Prefer to keep bundles lean? Import just the grid utilities without components:
+## Theme overrides and dark mode
+
+All tokens live in the `$pier-theme` maps. Override keys via `@use` configuration
+or merge them manually before applying the theme mixin:
 
 ```scss
-@use "pier/grid";
-@use "pier/utilities" as utilities;
+@use "pier/_all" as pier with (
+  $pier-theme-overrides: (
+    color-accent: #ff7849,
+    space-unit: 0.75rem,
+    components: (
+      button: (font-weight: 700),
+    ),
+  ),
+);
 
-@include grid.generate-grid();
-@include utilities.generate-utilities($register-tokens: false);
+@include pier.pier-apply-theme(pier.$pier-theme);
+@include pier.pier-apply-theme(pier.$pier-theme-dark, "[data-theme='dark']");
 ```
 
-> ⚡️ Performance tip: the `@use "pier/all"` entry point is perfect for
-> prototypes. For production builds, assemble a slimmer bundle by importing
-> individual modules or compiling from `src/pier-core.scss`.
+Switching to dark mode at runtime only requires toggling the `data-theme`
+attribute. Every component reads from CSS custom properties, so the UI updates
+without recompilation:
 
-## Build outputs
+```js
+document.documentElement.dataset.theme = 'dark';
+```
 
-Run the Dart Sass build to emit distributable stylesheets:
+## Optional utilities
+
+Spacing, alignment, and sizing helpers are generated only when their mixins are
+included. Enable or disable them globally by overriding the feature flags in
+`pier/_utilities.scss`:
+
+```scss
+@use "pier/utilities" with (
+  $pier-include-spacing-utilities: false,
+  $pier-include-align-utilities: true,
+);
+```
+
+You can also pull the generators directly:
+
+```scss
+@use "pier/utilities.spacing" as spacing;
+
+@include spacing.pier-spacing-utilities((
+  0: 0,
+  xs: 0.25rem,
+  sm: 0.5rem,
+));
+```
+
+## Bundled builds
+
+The repository ships a couple of ready-made entry points:
+
+- `src/pier-core.scss` – reset, CSS variables, grid, and utilities
+- `src/full.scss` – the complete framework including buttons, forms, tooltips, and layout patterns
+
+Compile them with the provided npm scripts (see below) or wire them into your own
+build tool.
+
+## Build scripts
 
 ```bash
 npm install
-npm run build
+npm run build:css      # dist/pier.css – full, expanded build
+npm run build:css:min  # dist/pier.min.css – minified build
+npm run build:core     # dist/pier-core.css – reset + utilities
+npm run demo           # build CSS and launch the demo
 ```
 
-This produces three files in `dist/`:
+All scripts rely on Dart Sass. Feel free to swap in your own bundler or
+integrate these commands into your existing pipeline.
 
-- `pier.css` – full bundle (reset, utilities, buttons)
-- `pier.min.css` – minified full bundle
-- `pier-core.css` – reset + utilities without components
+## Documentation
 
-## Further reading
-
-- [`docs/architecture.md`](docs/architecture.md) – overview of the Sass layers
-- [`docs/USAGE.md`](docs/USAGE.md) – additional recipes and legacy guidance
-- [`docs/ASSESSMENT.md`](docs/ASSESSMENT.md) – audit of the original source
+- [`docs/architecture.md`](docs/architecture.md) – layer stack and forwarding strategy
+- [`docs/demo.md`](docs/demo.md) – build and explore the living demo
+- [`docs/USAGE.md`](docs/USAGE.md) – legacy recipes and additional guidance
