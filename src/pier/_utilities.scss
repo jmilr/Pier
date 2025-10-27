@@ -1,87 +1,20 @@
 @use "sass:map";
-@use "sass:meta";
-
 @use "config" as config;
 @use "grid";
 @use "layout";
 @use "mixins";
 @use "tokens";
+@use "utilities.spacing" as spacing_utilities;
+@use "utilities.align" as align_utilities;
+@use "utilities.sizing" as sizing_utilities;
 
 // -----------------------------------------------------------------------------
 // Utility generator
 // -----------------------------------------------------------------------------
-// Builds Pier's utility classes (spacing, colour, layout helpers) and wires in
-// responsive variants. `generate-utilities()` is invoked by the bundled entry
-// points, but can also be executed manually for custom scopes or prefixes.
-// -----------------------------------------------------------------------------
 
-$utility-config: (
-  border: (
-    module: mixins,
-    name: borders,
-  ),
-  margin: (
-    module: mixins,
-    name: margin,
-  ),
-  padding: (
-    module: mixins,
-    name: padding,
-  ),
-  radius: (
-    module: mixins,
-    name: radii,
-  ),
-  color: (
-    module: mixins,
-    name: colour-set,
-    args: (color),
-  ),
-  hover-color: (
-    module: mixins,
-    name: colour-set,
-    args: (hover, color),
-  ),
-  background: (
-    module: mixins,
-    name: colour-set,
-    args: (background-color),
-  ),
-  border-color: (
-    module: mixins,
-    name: colour-set,
-    args: (border-color),
-  ),
-  surface: (
-    module: mixins,
-    name: colour-set,
-    args: (background-color, (color contrast)),
-  ),
-  flow: (
-    module: layout,
-    name: stack,
-  ),
-  cluster: (
-    module: layout,
-    name: cluster,
-  ),
-  auto-grid: (
-    module: layout,
-    name: auto-grid,
-  ),
-  container: (
-    module: layout,
-    name: container,
-  ),
-);
-
-@mixin _call-utility($config) {
-  $module: map.get($config, module);
-  $name: map.get($config, name);
-  $args: if(map.has-key($config, args), map.get($config, args), ());
-
-  @include meta.call(meta.get-mixin($name, $module: $module), $args...);
-}
+$pier-include-spacing-utilities: true !default;
+$pier-include-align-utilities: true !default;
+$pier-include-sizing-utilities: true !default;
 
 @mixin _responsive-scope($breakpoint) {
   @include grid.breakpoint($breakpoint) {
@@ -91,20 +24,22 @@ $utility-config: (
   }
 }
 
-@mixin _utility-block() {
-  @each $name, $config in $utility-config {
-    &#{$name} {
-      @include _call-utility($config);
-    }
-  }
-}
-
 @mixin _base-utilities() {
-  @each $name, $config in $utility-config {
-    .#{$name} {
-      @include _call-utility($config);
-    }
-  }
+  .border { @include mixins.borders(); }
+  .margin { @include mixins.margin(); }
+  .padding { @include mixins.padding(); }
+  .radius { @include mixins.radii(); }
+
+  .color { @include mixins.colour-set(color); }
+  .hover-color { @include mixins.colour-set(hover, color); }
+  .background { @include mixins.colour-set(background-color); }
+  .border-color { @include mixins.colour-set(border-color); }
+  .surface { @include mixins.colour-set(background-color, (color contrast)); }
+
+  .flow { @include layout.stack(); }
+  .cluster { @include layout.cluster(); }
+  .auto-grid { @include layout.auto-grid(); }
+  .container { @include layout.container(); }
 }
 
 @mixin generate-utilities(
@@ -119,10 +54,22 @@ $utility-config: (
 
   @include _base-utilities();
 
+  @if $pier-include-spacing-utilities {
+    @include spacing_utilities.pier-spacing-utilities();
+  }
+
+  @if $pier-include-align-utilities {
+    @include align_utilities.pier-align-utilities();
+  }
+
+  @if $pier-include-sizing-utilities {
+    @include sizing_utilities.pier-sizing-utilities();
+  }
+
   @each $breakpoint, $settings in config.$grid {
     @if $breakpoint != small {
       @include _responsive-scope($breakpoint) {
-        @include _utility-block();
+        @include _base-utilities();
       }
     }
   }

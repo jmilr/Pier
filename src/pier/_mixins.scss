@@ -22,10 +22,30 @@
 
     @if $direction == max {
       $next: if($breakpoint == small, map.get($map, medium), $value);
-      $value: $next - 1px;
+      @if meta.type-of($next) == "number" {
+        @if math.is-unitless($next) {
+          $value: fn.rem-calc($next) - fn.rem-calc(1px);
+        } @else if math.compatible($next, 1px) {
+          $value: $next - 1px;
+        } @else if math.compatible($next, 1rem) {
+          $value: $next - fn.rem-calc(1px);
+        } @else {
+          $value: $next;
+        }
+      } @else {
+        $value: $next;
+      }
     }
 
-    @media screen and (#{$direction}-#{$orientation}: fn.rem-calc($value)) {
+    $query-value: $value;
+
+    @if meta.type-of($value) == "number" {
+      @if math.is-unitless($value) or math.compatible($value, 1px) {
+        $query-value: fn.rem-calc($value);
+      }
+    }
+
+    @media screen and (#{$direction}-#{$orientation}: #{$query-value}) {
       @content;
     }
   } @else {

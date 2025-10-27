@@ -1,4 +1,7 @@
-@use "pier-core";
-@use "pier/buttons";
+@use "./_all" as pier;
 
 // Full bundle: core utilities plus component styles.
+@include pier.pier-apply-theme(pier.$pier-theme);
+@include pier.pier-apply-theme(pier.$pier-theme-dark, "[data-theme='dark']");
+@include pier.generate-grid();
+@include pier.generate-utilities();

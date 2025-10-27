@@ -1,14 +1,7 @@
-@forward "pier/theme.config" show $pier-theme-overrides;
-@use "pier" as pier;
+@use "./_all" as pier;
 
-// -----------------------------------------------------------------------------
-// Complete Pier bundle
-// -----------------------------------------------------------------------------
-// Produces the grid, responsive utilities, reset, print adjustments, and button
-// styles in one shot. Override `$pier-theme-overrides` via `@use` configuration
-// when importing this file to tweak the defaults without re-declaring the entire
-// theme map.
-// -----------------------------------------------------------------------------
-
+// Legacy entry point – mirrors the new `_all` bundle.
+@include pier.pier-apply-theme(pier.$pier-theme);
+@include pier.pier-apply-theme(pier.$pier-theme-dark, "[data-theme='dark']");
 @include pier.generate-grid();
 @include pier.generate-utilities();

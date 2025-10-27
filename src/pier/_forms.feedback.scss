@@ -1,0 +1,76 @@
+// -----------------------------------------------------------------------------
+// Form validation feedback
+// -----------------------------------------------------------------------------
+
+@mixin _state($color) {
+  border-color: #{$color};
+  box-shadow: 0 0 0 1px #{$color};
+
+  & ~ .help,
+  & ~ .field__message,
+  .help,
+  .field__message {
+    color: #{$color};
+  }
+}
+
+.field {
+  &__message {
+    font-size: 0.875rem;
+    color: var(--pier-input-help, var(--pier-color-muted));
+  }
+
+  &.is-valid {
+    color: var(--pier-color-success);
+  }
+
+  &.is-warning {
+    color: var(--pier-color-warning);
+  }
+
+  &.is-invalid {
+    color: var(--pier-color-danger);
+  }
+}
+
+.input,
+.textarea,
+.select,
+.checkbox input,
+.radio input,
+.switch input,
+.range {
+  &.is-valid,
+  &:is(.is-valid) {
+    @include _state(var(--pier-color-success));
+  }
+
+  &.is-warning,
+  &:is(.is-warning) {
+    @include _state(var(--pier-color-warning));
+  }
+
+  &.is-invalid,
+  &:is(.is-invalid) {
+    @include _state(var(--pier-color-danger));
+  }
+}
+
+.field.is-valid .input,
+.field.is-valid .textarea,
+.field.is-valid .select { @include _state(var(--pier-color-success)); }
+
+.field.is-warning .input,
+.field.is-warning .textarea,
+.field.is-warning .select { @include _state(var(--pier-color-warning)); }
+
+.field.is-invalid .input,
+.field.is-invalid .textarea,
+.field.is-invalid .select { @include _state(var(--pier-color-danger)); }
+
+.field[data-variant="filled"] .input,
+.field[data-variant="filled"] .textarea,
+.field[data-variant="filled"] .select {
+  background: var(--pier-input-filled-bg);
+  border: var(--pier-input-border-muted);
+}

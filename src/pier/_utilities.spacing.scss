@@ -1,0 +1,49 @@
+@use "sass:map";
+@use "sass:meta";
+@use "config";
+
+// -----------------------------------------------------------------------------
+// Spacing utilities
+// -----------------------------------------------------------------------------
+
+$space-scale: config.$spacers !default;
+$axes: (
+  t: top,
+  r: right,
+  b: bottom,
+  l: left,
+  x: (left, right),
+  y: (top, bottom),
+) !default;
+$properties: (
+  m: margin,
+  p: padding,
+) !default;
+
+@mixin pier-spacing-utilities($map: $space-scale) {
+  @each $prefix, $property in $properties {
+    @each $key, $value in $map {
+      .#{$prefix}-#{$key} {
+        #{$property}: $value;
+      }
+
+      @each $axis, $targets in $axes {
+        .#{$prefix}#{$axis}-#{$key} {
+          @if meta.type-of($targets) == "list" {
+            @each $target in $targets {
+              #{$property}-#{$target}: $value;
+            }
+          } @else {
+            #{$property}-#{$targets}: $value;
+          }
+        }
+      }
+    }
+  }
+
+  @each $key, $value in $map {
+    .gap-#{$key} {
+      gap: $value;
+    }
+  }
+}

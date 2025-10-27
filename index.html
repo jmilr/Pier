@@ -1,162 +1,355 @@
-<html>
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width,  initial-scale=1,  user-scalable=no">
-		
-		<link rel="stylesheet" type="text/css" href="/dist/css/main.css">
-	</head>
-	<body>
-	<header id="header" class="row">
-		<div id="logo" class="column medium-4 large-2">
-			<a href="/">
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 399.6 139">
-					<title>Pier Logo</title>
-						<path d="M70.69, 0C17.67, 0, 0, 17.44, 0, 69.88, 0, 114, 12.49, 133.31, 48, 138.36l1.49.2c1.27.16, 2.59.31, 3.92.44L65.05, 69.88H47.13l-8.19, 48.57a28.11, 28.11, 0, 0, 1-11-6.32c-3.25-3.21-5.64-7.73-7.32-13.81-2-7.24-3-16.54-3-28.44s1-21.21, 3-28.45c1.68-6.07, 4.07-10.59, 7.32-13.8s7.82-5.57, 14-7.23c7.32-2, 16.73-2.93, 28.76-2.93s21.45, 1, 28.77, 2.93c6.15, 1.66, 10.72, 4, 14, 7.23s5.64, 7.73, 7.32, 13.8c2, 7.24, 3, 16.55, 3, 28.45s-1, 21.2-3, 28.44c-1.68, 6.08-4.07, 10.6-7.32, 13.81a28.11, 28.11, 0, 0, 1-11, 6.32L94.26, 69.88H76.34L88, 139c1.64-.16, 3.3-.35, 4.85-.57l2.2-.32c34.23-5.41, 46.34-24.83, 46.34-68.23C141.39, 17.44, 123.72, 0, 70.69, 0Z" style="fill:#fcfffe"/>
-						<path d="M225.86, 56.81a13.39, 13.39, 0, 0, 1-3.51, 9.5q-3.51, 3.75-10, 3.76H195.26V43.42h17.08q6.51, 0, 10, 3.76A13.56, 13.56, 0, 0, 1, 225.86, 56.81ZM212.34, 25.56H177.41v89.27h17.85V87.92h17.08A32.9, 32.9, 0, 0, 0, 225, 85.56a29.9, 29.9, 0, 0, 0, 9.89-6.5, 30.27, 30.27, 0, 0, 0, 6.5-9.82, 32.12, 32.12, 0, 0, 0, 2.36-12.43, 32.58, 32.58, 0, 0, 0-2.36-12.5A29.29, 29.29, 0, 0, 0, 225, 27.92, 32.9, 32.9, 0, 0, 0, 212.34, 25.56Zm59.3, 25.51H254.81v63.76h16.83ZM252.52, 32.83a10.46, 10.46, 0, 0, 0, 10.71, 10.71, 10.58, 10.58, 0, 0, 0, 7.71-3.06, 10.28, 10.28, 0, 0, 0, 3.12-7.65A10.67, 10.67, 0, 0, 0, 263.23, 22a10.28, 10.28, 0, 0, 0-7.65, 3.13A10.58, 10.58, 0, 0, 0, 252.52, 32.83Zm77, 43H300.89a14.19, 14.19, 0, 0, 1, 15-12q6.12, 0, 9.56, 3.38A14, 14, 0, 0, 1, 329.57, 75.81ZM283.8, 83a37.47, 37.47, 0, 0, 0, 2.3, 13.26, 29.73, 29.73, 0, 0, 0, 6.69, 10.58, 31.18, 31.18, 0, 0, 0, 10.78, 7, 38.5, 38.5, 0, 0, 0, 14.4, 2.55q9.18, 0, 15.3-2.55a38.74, 38.74, 0, 0, 0, 10.07-5.87l-7-13.9a26.09, 26.09, 0, 0, 1-7.84, 4.72, 27.81, 27.81, 0, 0, 1-10.26, 1.78, 22.22, 22.22, 0, 0, 1-5.55-.7, 16, 16, 0, 0, 1-5-2.23, 16.35, 16.35, 0, 0, 1-4-3.82, 14.72, 14.72, 0, 0, 1-2.49-5.49l-.12-.25h46.91V83.46a43, 43, 0, 0, 0-2.16-14, 29.9, 29.9, 0, 0, 0-6.25-10.71A28, 28, 0, 0, 0, 329.57, 52a34.17, 34.17, 0, 0, 0-13.13-2.42, 34.71, 34.71, 0, 0, 0-13.58, 2.55, 29.44, 29.44, 0, 0, 0-10.26, 7.08, 31.87, 31.87, 0, 0, 0-6.5, 10.64A37.12, 37.12, 0, 0, 0, 283.8, 83Zm91.45-21.43V51.07H359.06v63.76h16.83V86q0-9.18, 3.82-13.84T392, 67.52a38.87, 38.87, 0, 0, 1, 3.95.19, 15.4, 15.4, 0, 0, 1, 3.7.83V50.43c-1-.25-2-.47-3-.64a19.08, 19.08, 0, 0, 0-3.25-.25, 18.48, 18.48, 0, 0, 0-11.15, 3.19A21.51, 21.51, 0, 0, 0, 375.25, 61.52Z" style="fill:#fd4732;"/>
-				</svg>
-			</a>
-		</div>
-	</header>
-	<div id="content" class="row">
-		<div class="column">			
-			<h1 class="divider-below">Pier</h1>
-			<h1>Heading One</h1>
-			<h2>Heading Two</h2>
-			<h3>Heading Three</h3>
-			<h4>Heading Four</h4>
-			<h5 class="divider-below">Heading Five</h5>
-			
-			<ul><li>List item one</li><li>List item two</li><li>List item three
-			<ul><li>List sub-item&nbsp;one</li><li>List sub-item&nbsp;two</li><li>List sub-item three</li></ul></li><li>List item four</li><li>List item five</li></ul>
-			
-			<ol><li>Numbered list item one</li><li>Numbered list item two</li><li>Numbered list item three
-			<ol><li>Numbered list sub-item one</li><li>Numbered list sub-item two<ol><li>Numbered list sub-sub-item one</li><li>Numbered list sub-sub-item two</li></ol></li></ol></li><li>Numbered list item four</li></ol>
-			
-			<blockquote>This is a blockquote example to test the styling of blockquotes</blockquote>
-			
-			<h5>Code display:</h5>
-			
-<pre>
-$('.download-link').on('click', '.dropdown-toggle',  function(e){
-    $(this).toggleClass('open');
-    $($(this).attr('href')).toggleClass('collapse');
-    $('.dropdown-menu.collapse').each(function(){
-        var subHeight = $(".archiveGroup",  this).outerHeight();
-        $(this).css("max-height", subHeight + "px");
-    });
-    e.preventDefault();
-});
-</pre>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pier UI System</title>
+    <link rel="stylesheet" href="dist/pier.css" />
+    <style>
+      :root {
+        color-scheme: light;
+      }
 
-			<p><a href="https://www.vocus.com.au/#entry:2:url">Link styling &mdash; <span data-tooltip="Tooltips!">with tooltips!</span></a></p>
-			
-			<table>
-				<thead>
-					<tr>
-						<th class="background warning">Heading One</th>
-						<th class="background secondary">Heading Two</th>
-						<th class="background success">Heading Three</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>Cell One</td>
-						<td>Cell Two</td>
-						<td>Cell Three</td>
-					</tr>
-				</tbody>
-			</table>
-			
-			<table>
-				<thead>
-					<tr>
-						<th class="background warning">Heading One</th>
-						<th class="background secondary">Heading Two</th>
-						<th class="background success">Heading Three</th>
-					</tr>
-				</thead>
-			</table>
+      body {
+        margin: 0;
+      }
 
-		</div>
-	</div>
-	<div class="row">
-		<div class="column small-6">
-			<p class="group wrap">
-				<a href="#" class="btn secondary large">Button</a>
-				<a class="btn warning large">Button</a>
-				<a class="btn success large">Button</a>
-				<a class="btn danger large">Button</a>
-			</p>
-			<p class="group">
-				<a class="btn warning inverted">Button</a>
-				<a class="btn secondary inverted">Button</a>
-				<a class="btn danger inverted">Button</a>
-			</p>
-			<pre>foo bar baz</pre>
-		</div>
-		<div class="column small-6">
-			<p class="group">
-				<input class="btn base inverted large" placeholder="Input"></input>
-				<a class="btn base large">Submit</a>
-			</p>
-			<p>
-				<a class="btn primary large stretch">Button</a>
-			</p>
-			<p>
-				<a class="btn secondary large">Button</a>
-				<a class="btn danger large">Button</a>
-			</p>
-			<p>
-				<a class="btn warning large">Button</a>
-				<a class="btn success large">Button</a>
-				<a class="btn default large">Button</a>
-			</p>
-			<p>
-				<a class="btn primary">Button</a>
-				<a class="btn secondary">Button</a>
-				<a class="btn danger">Button</a>
-			</p>
-			<p>
-				<a class="btn warning">Button</a>
-				<a class="btn success">Button</a>
-				<a class="btn default">Button</a>
-			</p>
-			<p>
-				<a class="btn primary small">Button</a>
-				<a class="btn secondary small">Button</a>
-				<a class="btn danger small">Button</a>
-			</p>
-			<p>
-				<a class="btn warning small">Button</a>
-				<a class="btn success small">Button</a>
-				<a class="btn default small">Button</a>
-			</p>
-		</div>
-	</div>
-	<div class="row">
-		<div class="column small-6 medium-3">
-			<p>
-				<a class="btn secondary large stretch">Button</a>
-			</p>
-		</div>
-		<div class="column small-6 medium-3">
-			<p>
-				<a class="btn secondary large stretch">Button</a>
-			</p>
-		</div>
-		<div class="column medium-6">
-			<p>
-				<a class="btn secondary large stretch">Button</a>
-			</p>
-		</div>
-		<div class="column">
-			<pre>&lt;div class=&quot;column small-6 medium-3&quot;&gt;
-	&lt;p&gt;
-		&lt;a class=&quot;btn primary large stretch&quot;&gt;Button&lt;/a&gt;
-	&lt;/p&gt;
-&lt;/div&gt;</pre>
-		</div>
-	</div>
-	</body>
+      .demo-shell {
+        min-height: 100vh;
+      }
+
+      .demo-section {
+        padding: clamp(2rem, 4vw, 4rem) 0;
+      }
+
+      .demo-card {
+        background: var(--pier-card-bg);
+        color: var(--pier-card-fg);
+        border: var(--pier-card-border);
+        border-radius: var(--pier-card-radius);
+        box-shadow: var(--pier-card-shadow);
+        padding: var(--pier-card-padding);
+      }
+
+      .swatch {
+        width: 6rem;
+        height: 6rem;
+        border-radius: var(--pier-radius-base);
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+      }
+
+      table.demo-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      table.demo-table th,
+      table.demo-table td {
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid var(--pier-color-border);
+        text-align: left;
+      }
+
+      .demo-utilities .box {
+        background: var(--pier-color-surface);
+        border: 1px dashed var(--pier-color-border);
+        border-radius: var(--pier-radius-base);
+        padding: 1rem;
+      }
+
+      .hero {
+        background: linear-gradient(135deg, rgba(236, 108, 47, 0.1), rgba(236, 108, 47, 0));
+        border-radius: var(--pier-radius-lg);
+        padding: clamp(3rem, 8vw, 6rem);
+      }
+
+      .theme-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      [data-theme="dark"] {
+        color-scheme: dark;
+      }
+    </style>
+  </head>
+  <body class="demo-shell">
+    <div class="stack" style="--stack-gap: clamp(2rem, 4vw, 4rem);">
+      <section class="demo-section container">
+        <div class="stack" style="--stack-gap: clamp(1.5rem, 3vw, 2.5rem);">
+          <header class="hero stack" style="--stack-gap: clamp(1rem, 2vw, 1.5rem);">
+            <div class="cluster" style="--cluster-align: space-between;">
+              <div class="stack" style="--stack-gap: 0.5rem;">
+                <span class="mono muted">Pier Sass framework</span>
+                <h1>Lightweight primitives for enduring design systems</h1>
+                <p class="lead">Pier ships mixins, layout patterns, and UI components that compile with your Sass build. Import one file for the full experience or cherry-pick only what you need.</p>
+              </div>
+              <button class="btn btn--subtle" id="theme-toggle" type="button">
+                Toggle theme
+              </button>
+            </div>
+            <div class="stack" style="--stack-gap: 0.75rem;">
+              <code class="mono">@use "pier/_all" as *;</code>
+              <code class="mono">@include pier-apply-theme($pier-theme);</code>
+            </div>
+          </header>
+
+          <div class="stack" style="--stack-gap: clamp(1.5rem, 3vw, 2.5rem);">
+            <h2>Theme swatches</h2>
+            <div class="cluster" style="--cluster-gap: clamp(1rem, 2vw, 2rem); --cluster-align: flex-start;">
+              <div class="stack" style="--stack-gap: 0.5rem; align-items: center;">
+                <span class="swatch" style="background: var(--pier-color-bg);"></span>
+                <span class="small muted mono">Background</span>
+              </div>
+              <div class="stack" style="--stack-gap: 0.5rem; align-items: center;">
+                <span class="swatch" style="background: var(--pier-color-surface);"></span>
+                <span class="small muted mono">Surface</span>
+              </div>
+              <div class="stack" style="--stack-gap: 0.5rem; align-items: center;">
+                <span class="swatch" style="background: var(--pier-color-accent);"></span>
+                <span class="small muted mono">Accent</span>
+              </div>
+              <div class="stack" style="--stack-gap: 0.5rem; align-items: center;">
+                <span class="swatch" style="background: var(--pier-color-success);"></span>
+                <span class="small muted mono">Success</span>
+              </div>
+              <div class="stack" style="--stack-gap: 0.5rem; align-items: center;">
+                <span class="swatch" style="background: var(--pier-color-warning);"></span>
+                <span class="small muted mono">Warning</span>
+              </div>
+              <div class="stack" style="--stack-gap: 0.5rem; align-items: center;">
+                <span class="swatch" style="background: var(--pier-color-danger);"></span>
+                <span class="small muted mono">Danger</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="demo-section container stack" style="--stack-gap: clamp(2rem, 4vw, 3rem);">
+        <header class="stack" style="--stack-gap: 0.75rem;">
+          <h2>Typography</h2>
+          <p class="muted">Fluid type powered by clamp() and the <code class="mono">pier-text</code> mixin. Roles for lead copy, small text, and code provide consistent rhythm.</p>
+        </header>
+        <article class="stack" style="--stack-gap: 1.5rem;">
+          <div class="stack" style="--stack-gap: 0.5rem;">
+            <h1>Display heading</h1>
+            <h2>Section heading</h2>
+            <h3>Sub heading</h3>
+            <h4>Supporting heading</h4>
+            <h5>Minor heading</h5>
+            <h6>Eyebrow</h6>
+          </div>
+          <p class="lead">Pier keeps defaults human sized so you can ship without tuning every variable. The lead class uses relaxed line height and the accent display family.</p>
+          <p>Regular body copy inherits the fluid scale. Use the <code class="mono">.muted</code> role for de-emphasised text and <code class="mono">.mono</code> for inline code like <code class="mono">npm run build:css</code>.</p>
+          <p class="small">Small text helps with captions and legal copy. The mixin accepts size, weight, line height, and tracking tokens.</p>
+          <pre><code>body { @include pier-text(md); }
+code { @include pier-text(sm, $line: 1.6); }</code></pre>
+        </article>
+      </section>
+
+      <section class="demo-section container stack" style="--stack-gap: clamp(2rem, 4vw, 3rem);">
+        <h2>Layout primitives</h2>
+        <div class="stack" style="--stack-gap: 1.5rem;">
+          <div class="demo-card stack" style="--stack-gap: 1rem;">
+            <h3 class="mono">.stack</h3>
+            <div class="stack" style="--stack-gap: 1rem;">
+              <div class="demo-card" style="background: none; border: 1px dashed var(--pier-color-border);">Stacked item one</div>
+              <div class="demo-card" style="background: none; border: 1px dashed var(--pier-color-border);">Stacked item two</div>
+              <div class="demo-card" style="background: none; border: 1px dashed var(--pier-color-border);">Stacked item three</div>
+            </div>
+          </div>
+          <div class="demo-card stack" style="--stack-gap: 1rem;">
+            <h3 class="mono">.cluster</h3>
+            <div class="cluster" style="--cluster-gap: 1rem; --cluster-align: flex-start;">
+              <span class="btn btn--subtle">Tag</span>
+              <span class="btn btn--subtle">Cluster</span>
+              <span class="btn btn--subtle">Wraps</span>
+              <span class="btn btn--subtle">Nicely</span>
+            </div>
+          </div>
+          <div class="demo-card stack" style="--stack-gap: 1rem;">
+            <h3 class="mono">.sidebar</h3>
+            <div class="sidebar" style="--sidebar-side: 35%; --sidebar-gap: 1.5rem;">
+              <div class="stack" style="--stack-gap: 0.75rem;">
+                <h4>Primary column</h4>
+                <p>Use the sidebar pattern for documents with a persistent aside. Set <code class="mono">--sidebar-side</code> for custom ratios.</p>
+              </div>
+              <div class="stack" style="--stack-gap: 0.75rem;">
+                <h4>Secondary</h4>
+                <p class="muted">On small screens this collapses into a vertical stack.</p>
+              </div>
+            </div>
+          </div>
+          <div class="demo-card cover" style="--cover-min: 40vh;">
+            <div class="stack" style="--stack-gap: 0.75rem; text-align: center;">
+              <h3>Cover layout</h3>
+              <p>Center any content block both vertically and horizontally. Perfect for hero panels and callouts.</p>
+              <button class="btn btn--lg">Primary call to action</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="demo-section container stack" style="--stack-gap: clamp(1.5rem, 3vw, 2.5rem);">
+        <h2>Buttons</h2>
+        <div class="cluster" style="--cluster-gap: 1rem; --cluster-align: flex-start;">
+          <button class="btn">Primary</button>
+          <button class="btn btn--subtle">Subtle</button>
+          <button class="btn btn--outline">Outline</button>
+          <button class="btn btn--ghost">Ghost</button>
+          <button class="btn is-loading" aria-live="polite">Loading</button>
+          <button class="btn is-disabled" disabled>Disabled</button>
+        </div>
+        <div class="cluster" style="--cluster-gap: 1rem; --cluster-align: flex-start;">
+          <button class="btn btn--sm">Small</button>
+          <button class="btn">Medium</button>
+          <button class="btn btn--lg">Large</button>
+          <button class="btn is-active">Active state</button>
+        </div>
+      </section>
+
+      <section class="demo-section container stack" style="--stack-gap: clamp(1.5rem, 3vw, 2.5rem);">
+        <h2>Forms</h2>
+        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); gap: clamp(1rem, 2vw, 2rem);">
+          <form class="stack" style="--stack-gap: 1rem;">
+            <div class="field">
+              <label class="label" for="name">Name</label>
+              <input id="name" class="input" placeholder="Jane Doe" />
+              <p class="help">Outline variant with default spacing.</p>
+            </div>
+            <div class="field">
+              <label class="label" for="email">Email</label>
+              <input id="email" type="email" class="input input--filled" placeholder="name@example.com" />
+            </div>
+            <div class="field">
+              <label class="label" for="message">Message</label>
+              <textarea id="message" class="textarea" rows="4" placeholder="Tell us a bit more"></textarea>
+            </div>
+            <div class="cluster" style="--cluster-gap: 0.75rem; --cluster-align: flex-start;">
+              <label class="checkbox">
+                <input type="checkbox" checked />
+                <span>Subscribe to newsletter</span>
+              </label>
+              <label class="radio">
+                <input type="radio" name="contact" checked />
+                <span>Email</span>
+              </label>
+              <label class="radio">
+                <input type="radio" name="contact" />
+                <span>Phone</span>
+              </label>
+            </div>
+            <label class="switch">
+              <input type="checkbox" checked />
+              <span>Enable notifications</span>
+            </label>
+            <label class="stack" style="--stack-gap: 0.5rem;">
+              Range input
+              <input type="range" class="range" />
+            </label>
+          </form>
+
+          <form class="stack" style="--stack-gap: 1rem;">
+            <div class="field is-valid">
+              <label class="label" for="username">Username</label>
+              <input id="username" class="input is-valid" value="pier" />
+              <span class="field__message">Looks great!</span>
+            </div>
+            <div class="field is-warning">
+              <label class="label" for="password">Password</label>
+              <div class="input-group">
+                <span class="input-group__icon input-group__icon--left">🔒</span>
+                <input id="password" type="password" class="input input--with-btn" placeholder="••••••" />
+                <button type="button" class="btn btn--ghost input-group__btn">Reveal</button>
+              </div>
+              <span class="field__message">Use at least eight characters.</span>
+            </div>
+            <div class="field is-invalid">
+              <label class="label" for="select">Select</label>
+              <select id="select" class="select is-invalid">
+                <option>Pick an option</option>
+              </select>
+              <span class="field__message">Required field.</span>
+            </div>
+            <div class="field">
+              <label class="label" for="file">Upload</label>
+              <div class="file">
+                <span class="icon">📁</span>
+                <span class="muted">Drag a file or click to browse</span>
+                <input id="file" type="file" />
+              </div>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section class="demo-section container stack demo-utilities" style="--stack-gap: clamp(1.5rem, 3vw, 2.5rem);">
+        <h2>Utilities</h2>
+        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: clamp(1rem, 2vw, 2rem);">
+          <div class="box m-3">
+            <p class="mono">Spacing utilities</p>
+            <p class="muted">Use <code class="mono">m-*</code>, <code class="mono">p-*</code>, and <code class="mono">gap-*</code> classes to set consistent spacing.</p>
+          </div>
+          <div class="box flex items-center justify-between p-3">
+            <span class="mono">Alignment helpers</span>
+            <span class="btn btn--subtle">Aligned</span>
+          </div>
+          <div class="box stack" style="--stack-gap: 0.5rem;">
+            <p class="mono">Sizing</p>
+            <div class="w-50" style="background: rgba(236, 108, 47, 0.15); padding: 0.5rem;">.w-50</div>
+            <div class="max-w-prose" style="background: rgba(236, 108, 47, 0.08); padding: 0.5rem;">.max-w-prose keeps text readable.</div>
+          </div>
+        </div>
+        <p class="muted small">Utilities compile only when their partials are imported. Disable the feature flags in <code class="mono">pier/_utilities.scss</code> to tree-shake them.</p>
+      </section>
+
+      <section class="demo-section container stack" style="--stack-gap: clamp(1.5rem, 3vw, 2.5rem);">
+        <h2>Tooltips</h2>
+        <div class="cluster" style="--cluster-gap: 1.5rem; --cluster-align: flex-start;">
+          <button class="btn" data-tooltip="Top tooltip">Top</button>
+          <button class="btn" data-tooltip="Right tooltip" data-tooltip-pos="right">Right</button>
+          <button class="btn" data-tooltip="Bottom tooltip" data-tooltip-pos="bottom">Bottom</button>
+          <button class="btn" data-tooltip="Left tooltip" data-tooltip-pos="left">Left</button>
+        </div>
+        <p class="muted small">Tooltips are CSS-only. Reduced motion preferences disable transitions.</p>
+      </section>
+
+      <section class="demo-section container stack" style="--stack-gap: 1.5rem;">
+        <h2>Accessibility & states</h2>
+        <div class="cluster" style="--cluster-gap: 1rem; --cluster-align: flex-start;">
+          <button class="btn" data-tooltip="Focus me and press tab">Keyboard focus</button>
+          <button class="btn is-hovered">.is-hovered</button>
+          <button class="btn is-active">.is-active</button>
+          <button class="btn is-disabled" disabled>.is-disabled</button>
+        </div>
+        <p class="small muted">Focus rings respect <code class="mono">prefers-reduced-motion</code> and colour tokens for each theme.</p>
+      </section>
+
+      <footer class="demo-section container stack" style="--stack-gap: 0.75rem;">
+        <p class="mono muted">Pier version <span id="version">0.2.0</span></p>
+        <p class="small muted">Toggle dark mode to see component tokens rehydrate instantly.</p>
+      </footer>
+    </div>
+
+    <script>
+      const toggle = document.getElementById('theme-toggle');
+      const versionEl = document.getElementById('version');
+      fetch('package.json')
+        .then((response) => response.json())
+        .then((pkg) => {
+          if (pkg && pkg.version && versionEl) {
+            versionEl.textContent = pkg.version;
+          }
+        })
+        .catch(() => {});
+
+      toggle?.addEventListener('click', () => {
+        const root = document.documentElement;
+        const isDark = root.getAttribute('data-theme') === 'dark';
+        root.setAttribute('data-theme', isDark ? '' : 'dark');
+      });
+    </script>
+  </body>
 </html>
