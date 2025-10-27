@@ -1,0 +1,14 @@
+@forward "pier/theme.config" show $pier-theme-overrides;
+@use "pier" as pier;
+
+// -----------------------------------------------------------------------------
+// Complete Pier bundle
+// -----------------------------------------------------------------------------
+// Produces the grid, responsive utilities, reset, print adjustments, and button
+// styles in one shot. Override `$pier-theme-overrides` via `@use` configuration
+// when importing this file to tweak the defaults without re-declaring the entire
+// theme map.
+// -----------------------------------------------------------------------------
+
+@include pier.generate-grid();
+@include pier.generate-utilities();

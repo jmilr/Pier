@@ -6,6 +6,14 @@
 @use "config" as config;
 @use "functions" as fn;
 
+// -----------------------------------------------------------------------------
+// Design token registration
+// -----------------------------------------------------------------------------
+// Emits CSS custom properties for Pier's theme tokens. Consumers can scope the
+// output, control which token groups are exported, and customise the CSS
+// variable prefix via the `register()` mixin.
+// -----------------------------------------------------------------------------
+
 @function _normalise-targets($include) {
   @if $include == null or $include == all {
     @return (spaces, radii, colors, fonts, measures, breakpoints);

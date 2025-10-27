@@ -1,142 +1,136 @@
 # Pier
 
-> 🚧 A lightweight & tidy SASS framework
+> 🚧 A lightweight & tidy Sass framework
 
 Pier started life as a personal alternative to larger frameworks such as
 Bootstrap or Tailwind. The framework focuses on a handful of mixins that
 generate grids, spacing helpers, colour variants, and typography rules from a
-single settings map. The project is intentionally lightweight, but it now uses
-modern Sass modules and ships with a few layout primitives that make it easier
-to keep extending.
+single theme map. This refresh modernises the module structure, introduces a
+first-class configuration layer, and ships with a turn-key bundle for rapid
+onboarding.
 
-## Project status
+## Quick start
 
-- ✅ **Module-first** – the entire toolkit now uses `@use`/`@forward` instead of
-the deprecated global `@import` approach.
-- ✅ **Token driven** – design tokens live in a single configurable module and
-are exposed as CSS custom properties for runtime tweaks.
-- 🌱 **Composable utilities** – grid, spacing, colour, layout and typography
-mixins can be cherry-picked or re-exported in other projects.
+```bash
+npm install @jmilr/pier
+```
 
-For a detailed audit of the original source (and the motivation for this
-refresh), see [`docs/ASSESSMENT.md`](docs/ASSESSMENT.md).
+Import the pre-bundled stylesheet to emit the reset, utilities, grid helpers,
+and button styles in one line:
 
-## Features
+```scss
+@use "@jmilr/pier/all";
+```
 
-- Zero dependencies – import only the pieces you need.
-- Configurable grid, offset, and breakpoint maps exposed through modern mixins.
-- Helper mixins that generate spacing, colour, border, radius, and container
-  utilities.
-- A ratio-driven typography scale with optional fluid sizing helpers.
-- Layout primitives (`stack`, `cluster`, `auto-grid`, `container`) that cover the
-  most common “small-but-clever” patterns found in lean CSS frameworks.
-- Token registration helpers that emit design tokens as CSS custom properties,
-  including tone variants for every colour helper.
-- Automatic CSS custom properties for colours, radii, and spacing tokens.
+Prefer to keep the namespace? Alias the package instead:
 
-## Getting started
+```scss
+@use "@jmilr/pier" as pier;
 
-1. Copy the `source/pier/` directory (and `pier.scss` if you want a single entry
-   point) into your project.
-2. Configure tokens by loading the config module with overrides:
+@include pier.generate-grid();
+@include pier.generate-utilities();
+```
 
-   ```scss
-   // settings.scss inside your project
-   @use "pier/config" with (
-     $helpers: (
-       default: #fe5d84,
-       primary: #03080a,
-       secondary: #ffffff,
-       info: (
-         base: #3c8ce7,
-         light: #4fa3ff,
-         dark: #1a5fb4
-       )
-     ),
-     $spacers: (
-       0: 0,
-       1: 0.5rem,
-       2: 0.75rem,
-       3: 1rem,
-       4: 1.5rem
-     )
-   );
+## Theme overrides
 
-   @forward "pier";
-   @use "pier/grid" as grid;
-   @use "pier/utilities" as utilities;
+All configurable values (colours, spacing, fonts, radii, breakpoints) live in a
+single `$pier-theme` map. Override only the keys you care about by calling the
+`pier-theme()` mixin before generating any CSS:
 
-   @include grid.generate-grid();
-   @include utilities.generate-utilities();
-   ```
+```scss
+// _theme.scss
+@use "@jmilr/pier" as *;
+@forward "@jmilr/pier";
 
-3. Import the settings aggregator at the top of your main Sass file and alias it
-   however you prefer:
+@include pier-theme((
+  color-accent: #ff7849,
+  space-unit: 0.75rem,
+  helpers: (
+    brand: #6633ff,
+  ),
+));
 
-   ```scss
-   @use "settings" as pier;
+@include generate-grid();
+@include generate-utilities();
+```
 
-   body {
-     font-family: pier.$primary;
-     color: pier.color(primary);
-   }
-   ```
+Now import your theme file from your application stylesheet:
 
-4. Optionally include the helper partials (`_buttons.scss`, etc.) that ship with
-   Pier – they already `@use` the settings aggregator.
+```scss
+@use "theme" as *;
+```
 
-   ```scss
-   @use "pier/tokens" as tokens;
+Every config variable also respects `$pier-theme-overrides`, so you can apply
+overrides inline when using the one-line bundle:
 
-   // Publish tokens without generating any utility classes.
-   @include tokens.register(".design-system");
-   ```
+```scss
+@use "@jmilr/pier/all" with (
+  $pier-theme-overrides: (
+    radius: 0.75rem,
+    helpers: (primary: #14213d),
+  ),
+);
+```
 
-   The default utility bundle still calls `tokens.register()` internally, but
-   the dedicated module makes it easy to scope or rename the CSS custom
-   properties that Pier emits.
+## CLI helper
 
-See `source/pier/_utilities.scss` for the utility classes generated out of the
-box, and `source/_buttons.scss` for how the colour helpers compose in practice.
+Generate the starter `_theme.scss` (shown above) with zero configuration:
 
-For additional recipes check out [`docs/USAGE.md`](docs/USAGE.md).
+```bash
+npx pier init
+```
 
-## Utility overview
+The script creates the file in your current working directory, includes the
+package import, and adds commented override examples so you can tweak values
+quickly.
 
-`pier.rem-calc($size)`
+## Modular imports
 
-Translates pixel size to rems.
+Pier exposes every layer via `@forward` so you can cherry-pick pieces:
 
-`pier.color($token, $tone: base)`
+```scss
+@use "@jmilr/pier/functions" as fn;
+@use "@jmilr/pier/layout" as layout;
+@use "@jmilr/pier/typography" as type;
 
-Maps colours from the helpers map. `$tone` can be `lighter`, `light`, `dark`,
-`darker`, or `contrast`. Tokens can also be nested maps if you prefer to define
-bespoke tone values.
+.my-card {
+  @include layout.stack(fn.spacer(4));
+  font-family: fn.font-family(primary);
+  @include type.size(h3);
+}
+```
 
-`pier.colour-set([$modifier], $properties...)`
+Prefer to keep bundles lean? Import just the grid utilities without components:
 
-Generates a set of utility classes for each colour defined in the helpers map.
-`$modifier` can be `hover`, `focus`, `active`, `before`, `after`, or `disabled`.
-Pass a list such as `(border-color, dark)` to pull a specific tone for a given
-property.
+```scss
+@use "@jmilr/pier/grid";
+@use "@jmilr/pier/utilities" as utilities;
 
-`pier.margin()` / `pier.padding()`
+@include grid.generate-grid();
+@include utilities.generate-utilities($register-tokens: false);
+```
 
-Generate utility classes for each spacer in the config map. Directional variants
-(`x`, `y`, `inline`, `block`, `top`, `right`, `bottom`, `left`) are included.
+> ⚡️ Performance tip: the `@use "@jmilr/pier/all"` entry point is perfect for
+> prototypes. For production builds, assemble a slimmer bundle by importing
+> individual modules or compiling from `src/pier-core.scss`.
 
-`pier.size($level)`
+## Build outputs
 
-Returns font size for `$level` (`h1`, `h2`, `h3`, `h4`, `p`, `small`) across the
-configured breakpoints.
+Run the Dart Sass build to emit distributable stylesheets:
 
-`pier.borders()` and `pier.radii()`
+```bash
+npm install
+npm run build
+```
 
-Generate utility classes for border widths and radii. Radii values are also
-available via `pier.radius($token)` when you need them inline.
+This produces three files in `dist/`:
 
-`layout.stack($gap)` / `layout.cluster($gap)` / `layout.auto-grid($min, $gap)` /
-`layout.container($size)`
+- `pier.css` – full bundle (reset, utilities, buttons)
+- `pier.min.css` – minified full bundle
+- `pier-core.css` – reset + utilities without components
 
-Layout primitives that cover stacked flows, wrapping inline clusters, automatic
-grids, and responsive containers without relying on legacy float helpers.
+## Further reading
+
+- [`docs/architecture.md`](docs/architecture.md) – overview of the Sass layers
+- [`docs/USAGE.md`](docs/USAGE.md) – additional recipes and legacy guidance
+- [`docs/ASSESSMENT.md`](docs/ASSESSMENT.md) – audit of the original source

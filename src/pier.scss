@@ -1,9 +1,22 @@
+// -----------------------------------------------------------------------------
+// Pier public API
+// -----------------------------------------------------------------------------
+// Re-exports the core modules so `@use "pier"` exposes every mixin,
+// function, and variable. This file does not emit CSS on its own – use
+// `@use "pier/all"` or the generated theme entrypoint to compile the
+// default grid and utilities.
+// -----------------------------------------------------------------------------
+
+@forward "pier/theme.config";
 @forward "pier/config";
 @forward "pier/functions";
 @forward "pier/mixins";
-@forward "pier/grid";
 @forward "pier/layout";
-@forward "pier/tokens";
+@forward "pier/grid";
 @forward "pier/utilities";
+@forward "pier/tokens";
+@forward "pier/typography";
+@forward "pier/helpers";
+@forward "pier/buttons";
 @forward "pier/reset";
 @forward "pier/print";
