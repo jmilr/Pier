@@ -1,0 +1,53 @@
+#!/usr/bin/env node
+
+const fs = require('fs');
+const path = require('path');
+
+const [, , command = 'init'] = process.argv;
+
+function log(message) {
+  process.stdout.write(`${message}\n`);
+}
+
+function createThemeFile() {
+  const target = path.resolve(process.cwd(), '_theme.scss');
+
+  if (fs.existsSync(target)) {
+    log(`⚠️  Skipping: ${path.basename(target)} already exists.`);
+    return;
+  }
+
+  const template = `@use "pier" as *;
+@forward "pier";
+
+@include pier-theme((
+  // color-accent: #ff7849,
+  // color-bg: #ffffff,
+  // space-unit: 0.75rem,
+  // helpers: (
+  //   brand: #6633ff,
+  // ),
+));
+
+@include generate-grid();
+@include generate-utilities();
+`;
+
+  fs.writeFileSync(target, template, 'utf8');
+  log(`✅ Created ${path.basename(target)} with default Pier imports.`);
+}
+
+switch (command) {
+  case 'init':
+    createThemeFile();
+    break;
+  case 'help':
+  case '--help':
+  case '-h':
+    log('Usage: pier init\n\nCreates a starter `_theme.scss` file with Pier imports.');
+    break;
+  default:
+    log(`Unknown command: ${command}`);
+    log('Usage: pier init');
+    process.exitCode = 1;
+}

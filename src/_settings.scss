@@ -1,19 +1,16 @@
-@use "sass:map";
-
-@forward "pier/config";
-@forward "pier/functions";
-@forward "pier/mixins";
-@forward "pier/grid";
-@forward "pier/layout";
-@forward "pier/tokens";
-@forward "pier/utilities";
-
-@use "pier/config" as config;
+@use "pier";
 @use "pier/functions" as fn;
 @use "pier/grid" as grid;
 @use "pier/utilities" as utilities;
-@use "pier/reset";
-@use "pier/print";
+@forward "pier";
+
+// -----------------------------------------------------------------------------
+// Legacy settings entry point
+// -----------------------------------------------------------------------------
+// Maintained for backwards compatibility with the original Pier demo. It pulls
+// in the full Pier namespace, exposes a few helper aliases, and generates the
+// default grid + utility classes.
+// -----------------------------------------------------------------------------
 
 $primary: fn.font-family(primary);
 $accent: fn.font-family(accent);
@@ -23,6 +20,7 @@ $global-font-family: $primary;
 $body-font: $primary;
 $monospace-font: $letter-gothic;
 $heading-font: fn.font-family(heading);
+$heading-weight: pier.$heading-weight;
 
 @include grid.generate-grid();
 @include utilities.generate-utilities();

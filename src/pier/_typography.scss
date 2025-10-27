@@ -1,0 +1,9 @@
+// -----------------------------------------------------------------------------
+// Typography helpers
+// -----------------------------------------------------------------------------
+// Convenience re-exports for the core typography mixins. Import via
+// `@use "pier/typography" as type;` to access `type.size()` and
+// `type.fluid-size()` without pulling in unrelated mixins.
+// -----------------------------------------------------------------------------
+
+@forward "mixins" show scale, size, fluid-size, font-feature;

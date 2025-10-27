@@ -7,6 +7,14 @@
 @use "mixins";
 @use "tokens";
 
+// -----------------------------------------------------------------------------
+// Utility generator
+// -----------------------------------------------------------------------------
+// Builds Pier's utility classes (spacing, colour, layout helpers) and wires in
+// responsive variants. `generate-utilities()` is invoked by the bundled entry
+// points, but can also be executed manually for custom scopes or prefixes.
+// -----------------------------------------------------------------------------
+
 $utility-config: (
   border: (
     module: mixins,

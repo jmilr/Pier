@@ -7,6 +7,14 @@
 @use "functions" as fn;
 @use "mixins" as mixins;
 
+// -----------------------------------------------------------------------------
+// Grid utilities
+// -----------------------------------------------------------------------------
+// Provides mixins that generate responsive grid and offset helpers. The public
+// `generate-grid()` mixin is invoked by the `all` entry point to emit Pier's
+// default grid classes, but it can also be cherry-picked in custom builds.
+// -----------------------------------------------------------------------------
+
 @function _as-length($value) {
   @if meta.type-of($value) == "number" and math.is-unitless($value) {
     @return fn.rem-calc($value);

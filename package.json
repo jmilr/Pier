@@ -1,0 +1,33 @@
+{
+  "name": "pier",
+  "version": "0.2.0",
+  "description": "A lightweight, token-driven Sass framework",
+  "bin": {
+    "pier": "./bin/pier"
+  },
+  "scripts": {
+    "build": "npm run build:core && npm run build:full && npm run build:min",
+    "build:core": "sass --no-source-map src/pier-core.scss dist/pier-core.css",
+    "build:full": "sass --no-source-map src/full.scss dist/pier.css",
+    "build:min": "sass --no-source-map --style=compressed src/full.scss dist/pier.min.css"
+  },
+  "devDependencies": {
+    "sass": "^1.71.1"
+  },
+  "files": [
+    "bin",
+    "dist",
+    "src",
+    "README.md",
+    "LICENSE",
+    "docs"
+  ],
+  "keywords": [
+    "sass",
+    "design-system",
+    "framework",
+    "utilities",
+    "css"
+  ],
+  "sass": "src/index.scss"
+}
