@@ -1,5 +1,5 @@
 {
-  "name": "@jmilr/pier",
+  "name": "pier",
   "version": "0.2.0",
   "description": "A lightweight, token-driven Sass framework",
   "bin": {

@@ -17,8 +17,8 @@ function createThemeFile() {
     return;
   }
 
-  const template = `@use "@jmilr/pier" as *;
-@forward "@jmilr/pier";
+  const template = `@use "pier" as *;
+@forward "pier";
 
 @include pier-theme((
   // color-accent: #ff7849,

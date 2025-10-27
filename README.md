@@ -12,20 +12,20 @@ onboarding.
 ## Quick start
 
 ```bash
-npm install @jmilr/pier
+npm install github:jmilr/pier
 ```
 
 Import the pre-bundled stylesheet to emit the reset, utilities, grid helpers,
 and button styles in one line:
 
 ```scss
-@use "@jmilr/pier/all";
+@use "pier/all";
 ```
 
 Prefer to keep the namespace? Alias the package instead:
 
 ```scss
-@use "@jmilr/pier" as pier;
+@use "pier" as pier;
 
 @include pier.generate-grid();
 @include pier.generate-utilities();
@@ -39,8 +39,8 @@ single `$pier-theme` map. Override only the keys you care about by calling the
 
 ```scss
 // _theme.scss
-@use "@jmilr/pier" as *;
-@forward "@jmilr/pier";
+@use "pier" as *;
+@forward "pier";
 
 @include pier-theme((
   color-accent: #ff7849,
@@ -64,7 +64,7 @@ Every config variable also respects `$pier-theme-overrides`, so you can apply
 overrides inline when using the one-line bundle:
 
 ```scss
-@use "@jmilr/pier/all" with (
+@use "pier/all" with (
   $pier-theme-overrides: (
     radius: 0.75rem,
     helpers: (primary: #14213d),
@@ -89,9 +89,9 @@ quickly.
 Pier exposes every layer via `@forward` so you can cherry-pick pieces:
 
 ```scss
-@use "@jmilr/pier/functions" as fn;
-@use "@jmilr/pier/layout" as layout;
-@use "@jmilr/pier/typography" as type;
+@use "pier/functions" as fn;
+@use "pier/layout" as layout;
+@use "pier/typography" as type;
 
 .my-card {
   @include layout.stack(fn.spacer(4));
@@ -103,14 +103,14 @@ Pier exposes every layer via `@forward` so you can cherry-pick pieces:
 Prefer to keep bundles lean? Import just the grid utilities without components:
 
 ```scss
-@use "@jmilr/pier/grid";
-@use "@jmilr/pier/utilities" as utilities;
+@use "pier/grid";
+@use "pier/utilities" as utilities;
 
 @include grid.generate-grid();
 @include utilities.generate-utilities($register-tokens: false);
 ```
 
-> ⚡️ Performance tip: the `@use "@jmilr/pier/all"` entry point is perfect for
+> ⚡️ Performance tip: the `@use "pier/all"` entry point is perfect for
 > prototypes. For production builds, assemble a slimmer bundle by importing
 > individual modules or compiling from `src/pier-core.scss`.
 
