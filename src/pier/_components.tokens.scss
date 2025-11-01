@@ -79,6 +79,7 @@
     --pier-btn-ghost-bg: #{pier-component-token(button, ghost-bg, $theme)};
     --pier-btn-ghost-fg: #{pier-component-token(button, ghost-fg, $theme)};
     --pier-btn-outline-border: #{pier-component-token(button, outline-border, $theme)};
+    --pier-btn-outline-fg: #{pier-component-token(button, outline-fg, $theme)};
   }
 }
 
@@ -101,6 +102,7 @@
     --pier-input-focus-ring: #{pier-component-token(input, focus-ring, $theme)};
     --pier-input-help: #{pier-component-token(input, help-text, $theme)};
     --pier-input-icon-size: #{pier-component-token(input, icon-size, $theme)};
+    --pier-input-range-track: #{pier-component-token(input, range-track, $theme)};
   }
 }
 
