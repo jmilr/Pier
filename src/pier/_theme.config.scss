@@ -37,11 +37,12 @@ $pier-theme-dark-overrides: () !default;
   $text: _fallback($theme, color-text, #1f1d18);
   $muted: _fallback($theme, color-muted, rgba($text, 0.7));
   $border: _fallback($theme, color-border, rgba($text, 0.12));
-  $accent: _fallback($theme, color-accent, #ec6c2f);
-  $accent-contrast: _fallback($theme, color-accent-contrast, #ffffff);
-  $shadow-sm: _fallback($theme, shadow-sm, 0 1px 2px rgba(15, 23, 42, 0.08));
-  $shadow-md: _fallback($theme, shadow-md, 0 12px 20px rgba(15, 23, 42, 0.12));
-  $shadow-lg: _fallback($theme, shadow-lg, 0 28px 45px rgba(15, 23, 42, 0.16));
+  $accent: _fallback($theme, color-accent, #4c1d95);
+  $accent-contrast: _fallback($theme, color-accent-contrast, #f6f1ff);
+  $shadow-color: rgba($accent, 0.2);
+  $shadow-sm: _fallback($theme, shadow-sm, 0 0 0 1px $shadow-color);
+  $shadow-md: _fallback($theme, shadow-md, 0 0 0 1px $shadow-color);
+  $shadow-lg: _fallback($theme, shadow-lg, 0 0 0 1px $shadow-color);
   $success: _fallback($theme, color-success, #22795e);
   $warning: _fallback($theme, color-warning, #b6721c);
   $danger: _fallback($theme, color-danger, #c23f3f);
@@ -59,10 +60,11 @@ $pier-theme-dark-overrides: () !default;
       gap: $space,
       padding-y: $space * 1.25,
       padding-x: $space * 2,
-      shadow: $shadow-sm,
+      shadow: none,
       text-transform: none,
       font-weight: 600,
       outline-border: 1px solid $accent,
+      outline-fg: $accent,
       subtle-bg: color.mix($accent, $surface, $weight: 14%),
       subtle-fg: $accent,
       ghost-fg: $accent,
@@ -80,13 +82,14 @@ $pier-theme-dark-overrides: () !default;
       padding-x: $space * 1.5,
       gap: $space,
       placeholder: rgba($text, 0.55),
-      shadow: $shadow-sm,
-      filled-bg: color.mix($surface, $accent, $weight: 8%),
+      shadow: none,
+      filled-bg: color.mix($surface, $accent, $weight: 2%),
       disabled-bg: color.mix($surface, #000, $weight: 8%),
       disabled-fg: color.mix($text, $surface, $weight: 60%),
       focus-ring: $accent,
       help-text: $muted,
       icon-size: 1.125rem,
+      range-track: color.mix($surface, $text, $weight: 12%),
     ),
     card: (
       bg: $surface,
@@ -125,16 +128,16 @@ $pier-theme-defaults: (
   color-text: #1f1d18,
   color-muted: #6f6b62,
   color-border: #dcd5c9,
-  color-accent: #ec6c2f,
-  color-accent-contrast: #ffffff,
+  color-accent: #4c1d95,
+  color-accent-contrast: #f6f1ff,
   color-success: #2b8c62,
   color-warning: #b6721c,
   color-danger: #c23f3f,
   radius: 0.5rem,
   radius-lg: 0.75rem,
-  shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.08),
-  shadow-md: 0 12px 20px rgba(15, 23, 42, 0.12),
-  shadow-lg: 0 28px 45px rgba(15, 23, 42, 0.16),
+  shadow-sm: 0 0 0 1px rgba(76, 29, 149, 0.2),
+  shadow-md: 0 0 0 1px rgba(76, 29, 149, 0.2),
+  shadow-lg: 0 0 0 1px rgba(76, 29, 149, 0.2),
   space-unit: 0.5rem,
   font-stack: ("Inter", "Segoe UI", Roboto, -apple-system, BlinkMacSystemFont, sans-serif),
   font-mono: ("SFMono-Regular", "Consolas", "Liberation Mono", "Menlo", monospace),
@@ -234,17 +237,17 @@ $pier-theme-dark-defaults: map.deep-merge(
     color-text: #f4f4f2,
     color-muted: rgba(#f4f4f2, 0.65),
     color-border: rgba(#f4f4f2, 0.2),
-    color-accent: #f0713f,
-    color-accent-contrast: #101010,
-    shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4),
-    shadow-md: 0 18px 32px rgba(0, 0, 0, 0.35),
-    shadow-lg: 0 28px 45px rgba(0, 0, 0, 0.4),
+    color-accent: #4c1d95,
+    color-accent-contrast: #f6f1ff,
+    shadow-sm: 0 0 0 1px rgba(76, 29, 149, 0.2),
+    shadow-md: 0 0 0 1px rgba(76, 29, 149, 0.2),
+    shadow-lg: 0 0 0 1px rgba(76, 29, 149, 0.2),
     components: (
       button: (
-        ghost-fg: #f0713f,
-        subtle-bg: rgba(#f0713f, 0.12),
+        ghost-fg: color.mix(#4c1d95, #f6f1ff, $weight: 45%),
+        subtle-bg: rgba(#4c1d95, 0.2),
         disabled-bg: rgba(#ffffff, 0.04),
-        disabled-fg: rgba(#ffffff, 0.35),
+        disabled-fg: rgba(#f6f1ff, 0.35),
       ),
       input: (
         bg: #181818,
